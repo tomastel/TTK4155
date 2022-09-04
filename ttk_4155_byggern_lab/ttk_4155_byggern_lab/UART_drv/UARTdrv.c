@@ -10,6 +10,7 @@ void USART_drv_init(unsigned int ubrr)
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
 	/* Set frame format: 8data, 2stop bit, no parity */
 	UCSR0C = (1<<URSEL0)|(1<<USBS0)|(3<<UCSZ00);
+	fdevopen(USART_Transmit, USART_Receive);
 }
 
 void USART_Transmit(unsigned char data)

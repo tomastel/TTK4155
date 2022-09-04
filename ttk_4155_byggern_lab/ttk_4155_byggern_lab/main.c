@@ -32,6 +32,7 @@ int main(void){
 		//if (my_char != 0x00){
 		//USART_Transmit(my_char);
 		//}
+		printf("Hei, hallo");
 		
 		
 
