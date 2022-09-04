@@ -23,12 +23,17 @@ int main(void){
 	//DDRB = 0xFF;
     while (1){
 		//PORTB |= (1 << PB0);
-		unsigned char my_char = 0x00;
-		my_char = USART_Receive();
-		if (my_char != 0x00){
-		USART_Transmit(my_char);
-		}
+		//_delay_ms(500);
 		//PORTB &= ~(1 << PB0);
+		// _delay_ms(500);
+		
+		//unsigned char my_char = 0x00;
+		//my_char = USART_Receive();
+		//if (my_char != 0x00){
+		//USART_Transmit(my_char);
+		//}
+		
+		
 
     }
 	
