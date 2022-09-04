@@ -1,0 +1,1 @@
+Håvard Olai Kopperstad er ein grisa gut
