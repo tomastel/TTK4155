@@ -3,29 +3,29 @@ ttk_4155_byggern_lab.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000118  2**0
+  0 .data         00000000  00800100  00800100  00000114  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000c4  00000000  00000000  00000054  2**1
+  1 .text         000000c0  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000118  2**0
+  2 .comment      00000030  00000000  00000000  00000114  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000148  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000144  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000038  00000000  00000000  00000184  2**0
+  4 .debug_aranges 00000050  00000000  00000000  00000180  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000777  00000000  00000000  000001bc  2**0
+  5 .debug_info   0000079c  00000000  00000000  000001d0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000006bf  00000000  00000000  00000933  2**0
+  6 .debug_abbrev 000006a4  00000000  00000000  0000096c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002cc  00000000  00000000  00000ff2  2**0
+  7 .debug_line   0000029f  00000000  00000000  00001010  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000054  00000000  00000000  000012c0  2**2
+  8 .debug_frame  00000068  00000000  00000000  000012b0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003cb  00000000  00000000  00001314  2**0
+  9 .debug_str    0000038e  00000000  00000000  00001318  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000026  00000000  00000000  000016df  2**0
+ 10 .debug_loc    00000045  00000000  00000000  000016a6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  00001705  2**0
+ 11 .debug_ranges 00000030  00000000  00000000  000016eb  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -67,81 +67,89 @@ Disassembly of section .text:
   76:	d4 e0       	ldi	r29, 0x04	; 4
   78:	de bf       	out	0x3e, r29	; 62
   7a:	cd bf       	out	0x3d, r28	; 61
-  7c:	0e 94 4f 00 	call	0x9e	; 0x9e <main>
-  80:	0c 94 60 00 	jmp	0xc0	; 0xc0 <_exit>
+  7c:	0e 94 44 00 	call	0x88	; 0x88 <main>
+  80:	0c 94 5e 00 	jmp	0xbc	; 0xbc <_exit>
 
 00000084 <__bad_interrupt>:
   84:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000088 <USART_drv_init>:
-	return 0;
-}
+00000088 <main>:
 
-void USART_drv_init(unsigned int ubrr){
-	/* Set baud rate */
-	UBRR0H = (unsigned char)(ubrr>>8);
-  88:	90 bd       	out	0x20, r25	; 32
-	UBRR0L = (unsigned char)ubrr;
-  8a:	89 b9       	out	0x09, r24	; 9
-	/* Enable receiver and transmitter */
-	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
-  8c:	88 e1       	ldi	r24, 0x18	; 24
-  8e:	8a b9       	out	0x0a, r24	; 10
-	/* Set frame format: 8data, 2stop bit */
-	UCSR0C = (1<<URSEL0)|(1<<USBS0)|(3<<UCSZ00);
-  90:	8e e8       	ldi	r24, 0x8E	; 142
-  92:	80 bd       	out	0x20, r24	; 32
-  94:	08 95       	ret
 
-00000096 <USART_Transmit>:
-	//fdevopen(USART_Transmit, USART_Receive);
-}
-
-void USART_Transmit(unsigned char data){
-	/* Wait for empty transmit buffer */
-	while ( !( UCSR0A & (1<<UDRE0)) )
-  96:	5d 9b       	sbis	0x0b, 5	; 11
-  98:	fe cf       	rjmp	.-4      	; 0x96 <USART_Transmit>
-	;
-	/* Put data into buffer, sends the data */
-	UDR0 = data;
-  9a:	8c b9       	out	0x0c, r24	; 12
-  9c:	08 95       	ret
-
-0000009e <main>:
-void USART_Transmit(unsigned char data);
-unsigned char USART_Receive();
-void USART_Flush();
+//void USART_Flush();
 
 int main(void){
 	USART_drv_init(MYUBRR);
-  9e:	8f e1       	ldi	r24, 0x1F	; 31
-  a0:	90 e0       	ldi	r25, 0x00	; 0
-  a2:	0e 94 44 00 	call	0x88	; 0x88 <USART_drv_init>
-
+  88:	8f e1       	ldi	r24, 0x1F	; 31
+  8a:	90 e0       	ldi	r25, 0x00	; 0
+  8c:	0e 94 4f 00 	call	0x9e	; 0x9e <USART_drv_init>
+	//DDRB = 0xFF;
     while (1){
-		USART_Transmit('a');
-  a6:	81 e6       	ldi	r24, 0x61	; 97
-  a8:	0e 94 4b 00 	call	0x96	; 0x96 <USART_Transmit>
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+		//PORTB |= (1 << PB0);
+		unsigned char my_char = 0x00;
+		my_char = USART_Receive();
+  90:	0e 94 5a 00 	call	0xb4	; 0xb4 <USART_Receive>
+		if (my_char != 0x00){
+  94:	88 23       	and	r24, r24
+  96:	e1 f3       	breq	.-8      	; 0x90 <main+0x8>
+		USART_Transmit(my_char);
+  98:	0e 94 56 00 	call	0xac	; 0xac <USART_Transmit>
+  9c:	f9 cf       	rjmp	.-14     	; 0x90 <main+0x8>
 
-	__builtin_avr_delay_cycles(__ticks_dc);
-  ac:	2f ef       	ldi	r18, 0xFF	; 255
-  ae:	8f e7       	ldi	r24, 0x7F	; 127
-  b0:	97 e0       	ldi	r25, 0x07	; 7
-  b2:	21 50       	subi	r18, 0x01	; 1
-  b4:	80 40       	sbci	r24, 0x00	; 0
-  b6:	90 40       	sbci	r25, 0x00	; 0
-  b8:	e1 f7       	brne	.-8      	; 0xb2 <main+0x14>
-  ba:	00 c0       	rjmp	.+0      	; 0xbc <main+0x1e>
-  bc:	00 00       	nop
-  be:	f3 cf       	rjmp	.-26     	; 0xa6 <main+0x8>
+0000009e <USART_drv_init>:
 
-000000c0 <_exit>:
-  c0:	f8 94       	cli
+/* Hentet fra ATmega162 datablad */
+void USART_drv_init(unsigned int ubrr)
+{
+	/* Set baud rate */
+	UBRR0H = (unsigned char)(ubrr>>8);
+  9e:	90 bd       	out	0x20, r25	; 32
+	UBRR0L = (unsigned char)ubrr;
+  a0:	89 b9       	out	0x09, r24	; 9
+	/* Enable receiver and transmitter */
+	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
+  a2:	88 e1       	ldi	r24, 0x18	; 24
+  a4:	8a b9       	out	0x0a, r24	; 10
+	/* Set frame format: 8data, 2stop bit, no parity */
+	UCSR0C = (1<<URSEL0)|(1<<USBS0)|(3<<UCSZ00);
+  a6:	8e e8       	ldi	r24, 0x8E	; 142
+  a8:	80 bd       	out	0x20, r24	; 32
+  aa:	08 95       	ret
 
-000000c2 <__stop_program>:
-  c2:	ff cf       	rjmp	.-2      	; 0xc2 <__stop_program>
+000000ac <USART_Transmit>:
+}
+
+void USART_Transmit(unsigned char data)
+{
+	/* Wait for empty transmit buffer */
+	while ( !( UCSR0A & (1<<UDRE0)) )
+  ac:	5d 9b       	sbis	0x0b, 5	; 11
+  ae:	fe cf       	rjmp	.-4      	; 0xac <USART_Transmit>
+		;
+	/* Put data into buffer, sends the data */
+	UDR0 = data;
+  b0:	8c b9       	out	0x0c, r24	; 12
+  b2:	08 95       	ret
+
+000000b4 <USART_Receive>:
+}
+
+unsigned char USART_Receive(void)
+{
+	/* Wait for data to be received */
+	while ( !(UCSR0A & (1<<RXC0)) )
+  b4:	5f 9b       	sbis	0x0b, 7	; 11
+  b6:	fe cf       	rjmp	.-4      	; 0xb4 <USART_Receive>
+		;
+	/* Get and return received data from buffer */
+	return UDR0;
+  b8:	8c b1       	in	r24, 0x0c	; 12
+
+}
+  ba:	08 95       	ret
+
+000000bc <_exit>:
+  bc:	f8 94       	cli
+
+000000be <__stop_program>:
+  be:	ff cf       	rjmp	.-2      	; 0xbe <__stop_program>
