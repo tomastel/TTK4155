@@ -145,10 +145,25 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="bit_drv.h">
+    <Compile Include="ADC\adc_drv.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ADC\adc_drv.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MISC\bit_drv.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MISC\common_includes.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MISC\ext_button_drv.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MISC\ext_button_drv.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SRAM\SRAMdrv.c">
@@ -165,6 +180,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ADC" />
+    <Folder Include="MISC" />
     <Folder Include="SRAM" />
     <Folder Include="UART_drv" />
   </ItemGroup>

@@ -13,12 +13,18 @@
 #include "UARTdrv.h"
 #include "SRAM/SRAMdrv.h"
 
+
+
 int main(void){
 	USART_drv_init(MYUBRR);
 	SRAM_init();
+	adc_drv_init();
+	ext_button_drv_init();
 	//DDRB = 0xFF;
-	SRAM_test();
+	//SRAM_test();
     while (1){
+		//adc_read(1);
+		//_delay_ms(3000);
 		//PORTB |= (1 << PB0);
 		//_delay_ms(500);
 		//PORTB &= ~(1 << PB0);
@@ -32,6 +38,8 @@ int main(void){
 		//printf("Hei, hallo");
 		
 		//latch_test();
+		printf("ok\r\n");
+		_delay_ms(10000);
 		
 		
     }
