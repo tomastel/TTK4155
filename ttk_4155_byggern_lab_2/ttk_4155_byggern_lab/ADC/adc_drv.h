@@ -6,14 +6,10 @@
  */ 
 
 
-#ifndef INCFILE1_H_
-#define INCFILE1_H_
+#ifndef _ADC_DRV_H_
+#define _ADC_DRV_H_
 
-#define F_CPU 4.9152E6
-
-#include <avr/io.h>
-#include <stdio.h>
-#include <util/delay.h>
+#include "../MISC/common_includes.h"
 
 void adc_drv_init();
 

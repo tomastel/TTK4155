@@ -1,11 +1,7 @@
 #ifndef __SRAMDRV__
 #define __SRAMDRV__
 
-#define F_CPU 4.9152E6
-
-#include <avr/io.h>
-#include <stdio.h>
-#include <util/delay.h>
+#include "../MISC/common_includes.h"
 
 void SRAM_init();
 void latch_test();

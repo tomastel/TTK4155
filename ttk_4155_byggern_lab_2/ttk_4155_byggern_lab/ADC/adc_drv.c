@@ -5,8 +5,13 @@
  *  Author: khuongh
  */ 
 
-//#include "MISC/bit_drv.h"
 #include "adc_drv.h"
+
+#define LEFT_SLIDER_CHANNEL 0
+#define RIGHT_SLIDER_CHANNEL 1
+#define JOYSTICK_Y_CHANNEL 2
+#define JOYSTICK_X_CHANNEL 3
+#define ADC_EXT_CLK_SGN_PIN PD5
 
 void adc_drv_init()
 {
@@ -14,7 +19,7 @@ void adc_drv_init()
 	// Change TCCR1A and TCCR1B as a hex value 
 	// Change DDRD register to a more correct 8 bit value
 	// Change wiring from USB thingy
-	DDRD = 0xFF;
+	set_bit(DDRD, ADC_EXT_CLK_SGN_PIN);
 	
 	TCCR1B |= (1 << WGM13); // Choosing fast PWM
 	TCCR1B |= (1 << WGM12);	// Choosing fast PWM
@@ -34,31 +39,30 @@ void adc_drv_init()
 	
 	TCCR1A &= ~(1 << FOC1A);
 	TCCR1A &= ~(1 << FOC1B);
-	
-	
-	
+		
 }
 
 uint8_t adc_read(uint8_t channel)
 {
-	uint8_t adc_value = 0;
-	uint8_t adc_ch1 = 0;
-	uint8_t adc_ch2 = 0;
-	uint8_t adc_ch3 = 0;
+	volatile uint8_t adc_value[4] = { 0 };
+	
 	
 	volatile char *adc = (char *) 0x1400;
 	
+	//Writing to ADC register to start getting adc value
 	adc[0] = 0;
+	//control the delay!!
 	_delay_us(30);
 	
 	//adc_ch1 = adc[0];
 	
 	for (uint16_t i = 0; i < 4; i++) {
-		uint8_t adc_ch1 = adc[0];
-		printf("ADC_CH1 value: adc[%4d] = %02X\r\n", i, adc_ch1);
+		printf("%d: %d\r\n", i, adc[i]);
+		//adc_value[i] = adc[i];
 	}
 	
 	
 	
-	return adc_value;
+	//return adc_value[channel];
+	return 0;
 }

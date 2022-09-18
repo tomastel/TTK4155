@@ -1,12 +1,7 @@
 #ifndef __UARTDRV__
 #define __UARTDRV__
 
-#define F_CPU 4.9152E6
-
-#include <avr/io.h>
-#include <stdio.h>
-#include <util/delay.h>
-
+#include "../MISC/common_includes.h"
 
 #define FOSC 4.9152E6 // Clock Speed
 #define BAUD 9600

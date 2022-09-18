@@ -10,6 +10,7 @@
 #define EXT_BUTTON_DRV_H_
 
 #include "common_includes.h"
+#include "../ADC/adc_drv.h"
 
 void ext_button_drv_init(void);
 

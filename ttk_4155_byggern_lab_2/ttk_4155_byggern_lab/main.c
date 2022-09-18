@@ -12,7 +12,8 @@
 
 #include "UARTdrv.h"
 #include "SRAM/SRAMdrv.h"
-
+#include "ADC/adc_drv.h"
+#include "MISC/ext_button_drv.h"
 
 
 int main(void){
@@ -20,26 +21,16 @@ int main(void){
 	SRAM_init();
 	adc_drv_init();
 	ext_button_drv_init();
-	//DDRB = 0xFF;
-	//SRAM_test();
+
     while (1){
-		//adc_read(1);
-		//_delay_ms(3000);
-		//PORTB |= (1 << PB0);
-		//_delay_ms(500);
-		//PORTB &= ~(1 << PB0);
-		// _delay_ms(500);
 		
-		//unsigned char my_char = 0x00;
-		//my_char = USART_Receive();
-		//if (my_char != 0x00){
-		//USART_Transmit(my_char);
-		//}
-		//printf("Hei, hallo");
-		
-		//latch_test();
-		printf("ok\r\n");
-		_delay_ms(10000);
+		printf("----------------------------------\r\n");
+		printf("Left slider: %d \r\n", adc_read(0));
+		//printf("Right slider: %d\r\n",adc_read(1));
+		//printf("Joystick y: %d\r\n",adc_read(2));
+		//printf("Joystick x: %d\r\n",adc_read(3));//something wrong with this
+		printf("----------------------------------\r\n");
+		_delay_ms(2000);
 		
 		
     }
