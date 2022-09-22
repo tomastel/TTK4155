@@ -27,11 +27,6 @@ int main(void){
 	ext_button_drv_init();
 	adc_calibrate();
 	oled_init();
-	//oled_write_data(0b00011000);
-	//oled_write_data(0b00011000);
-	//oled_write_data(0b01111110);
-	//oled_write_data(0b00111100);
-	//oled_write_data(0b00011000);
 
     while (1){
 		
@@ -46,12 +41,8 @@ int main(void){
 		printf("Left slider: %d\r\n", slider1);
 		printf("Right slider: %d\r\n", slider2);
 		printf("----------------------------------\r\n");
-		oled_write_data(0b00011000);
-		oled_write_data(0b00011000);
-		oled_write_data(0b01111110);
-		oled_write_data(0b00111100);
-		oled_write_data(0b00011000);
-		_delay_ms(100);
+		oled_testingtesting();
+		//_delay_ms(10);
 		
 		
     }

@@ -7,6 +7,8 @@
 
 #include "oled_drv.h"
 
+uint16_t oled_cursor_counter = 0;
+
 void oled_write_cmd(char command)
 {
 	volatile char *oled_cmd_reg = (char *) 0x1000;
@@ -37,22 +39,43 @@ void oled_init()
 	oled_write_cmd(0xa4); //out follows RAM content
 	oled_write_cmd(0xa6); //set normal display
 	oled_write_cmd(0xaf); // display on
+	
+	oled_write_cmd(0b00100001); // Set Column Address
+	oled_write_cmd(0b00000000);
+	oled_write_cmd(0b11111111);
+	
+	oled_write_cmd(0b00100010); // Set Page Address
+	oled_write_cmd(0b00000000);
+	oled_write_cmd(0b11111111);
+	
+	oled_reset(); // Set all pixels low
 }
 
 void oled_reset()
 {
-	
+	for(int i = 0; i < OLED_RES; i++) {
+		oled_write_data(0x00);
+	}
 }
 
 void oled_home()
 {
+	uint16_t to_move = OLED_RES - oled_cursor_counter;
 	
+	for(int i=0; i<to_move; i++){
+		oled_write_data(0x00);
+	}
+	
+	oled_reset();
+	oled_cursor_counter = 0;
 }
 
 void oled_goto_line(/*line*/)
 {
 	
 }
+
+void oled_goto_column();
 
 void oled_clear_line(/*line*/)
 {
@@ -68,6 +91,7 @@ void oled_write_data(char data) // Volatile
 {
 	volatile char *oled_data_reg = (char *) 0x1200;
 	oled_data_reg[0] = data;
+	oled_cursor_counter++;
 }
 
 void oled_print(/*char**/)
@@ -77,9 +101,22 @@ void oled_print(/*char**/)
 
 void oled_set_brightness(uint8_t lvl_percent)
 {
-	uint8_t lvl = lvl_percent * 255 / 100 + 1;
+	uint8_t lvl = lvl_percent * 255 / 100;
 	oled_write_cmd(0x81); //contrast control
 	oled_write_cmd(lvl);
+}
+
+void oled_testingtesting()
+{
+	for(int i = 0; i < 50; i++){
+		oled_write_data(0b00011000); // Write arrow
+		oled_write_data(0b00011000);
+		oled_write_data(0b01111110);
+		oled_write_data(0b00111100);
+		oled_write_data(0b00011000);
+		_delay_ms(50);
+	}
+	oled_home();
 }
 
 
