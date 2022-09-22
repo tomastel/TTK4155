@@ -7,8 +7,6 @@
 
 #include "oled_drv.h"
 
-uint16_t oled_cursor_counter = 0;
-
 void oled_write_cmd(char command)
 {
 	volatile char *oled_cmd_reg = (char *) 0x1000;
@@ -53,45 +51,48 @@ void oled_init()
 
 void oled_reset()
 {
-	for(int i = 0; i < OLED_RES; i++) {
-		oled_write_data(0x00);
+	for(uint16_t i = 0; i < 1024; i++) {
+		oled_write_data(0b00000000);
 	}
 }
 
 void oled_home()
 {
-	uint16_t to_move = OLED_RES - oled_cursor_counter;
+	oled_pos(0, 0);
+}
+
+void oled_goto_line(uint8_t line)
+{
+	oled_write_cmd(0b10110000 + line);
+}
+
+void oled_goto_column(uint8_t col) 
+{
+	uint8_t col_LSB = 0x0F & col;
+	uint8_t col_MSB = (0xF0 & col) >> 4;
 	
-	for(int i=0; i<to_move; i++){
-		oled_write_data(0x00);
+	oled_write_cmd(0x00 | col_LSB);
+	oled_write_cmd(0x10 | col_MSB);
+}
+
+void oled_clear_line(uint8_t line)
+{
+	oled_pos(line, 0);
+	for(uint8_t i = 0; i<OLED_COLUMNS; i++) {
+		oled_write_data(0b00000000);
 	}
-	
-	oled_reset();
-	oled_cursor_counter = 0;
 }
 
-void oled_goto_line(/*line*/)
+void oled_pos(uint8_t line, uint8_t col)
 {
-	
-}
-
-void oled_goto_column();
-
-void oled_clear_line(/*line*/)
-{
-	
-}
-
-void oled_pos(/*row, column*/)
-{
-	
+	oled_goto_line(line);
+	oled_goto_column(col);
 }
 
 void oled_write_data(char data) // Volatile
 {
 	volatile char *oled_data_reg = (char *) 0x1200;
 	oled_data_reg[0] = data;
-	oled_cursor_counter++;
 }
 
 void oled_print(/*char**/)
@@ -108,8 +109,19 @@ void oled_set_brightness(uint8_t lvl_percent)
 
 void oled_testingtesting()
 {
+	oled_pos(4, 0);
 	for(int i = 0; i < 50; i++){
-		oled_write_data(0b00011000); // Write arrow
+		oled_write_data(0b00011000); // write arrow
+		oled_write_data(0b00011000);
+		oled_write_data(0b01111110);
+		oled_write_data(0b00111100);
+		oled_write_data(0b00011000);
+		_delay_ms(50);
+	}
+	oled_clear_line(4);
+	oled_pos(0, 63);
+	for(int i = 0; i < 50; i++){
+		oled_write_data(0b00011000); // write arrow
 		oled_write_data(0b00011000);
 		oled_write_data(0b01111110);
 		oled_write_data(0b00111100);
@@ -117,6 +129,18 @@ void oled_testingtesting()
 		_delay_ms(50);
 	}
 	oled_home();
+	for(int i = 0; i < 50; i++){
+		oled_write_data(0b00011000); // write arrow
+		oled_write_data(0b00011000);
+		oled_write_data(0b01111110);
+		oled_write_data(0b00111100);
+		oled_write_data(0b00011000);
+		_delay_ms(50);
+	}
+	oled_reset();
+	
+	
+
 }
 
 

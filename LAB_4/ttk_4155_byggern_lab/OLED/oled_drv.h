@@ -11,6 +11,7 @@
 
 #include "../MISC/common_includes.h"
 
+#define OLED_COLUMNS 128
 #define OLED_RES 1024
 
 void oled_write_cmd(char command);
@@ -21,11 +22,13 @@ void oled_reset();
 
 void oled_home();
 
-void oled_goto_line(/*line*/);
+void oled_goto_line(uint8_t line);
 
-void oled_clear_line(/*line*/);
+void oled_goto_column(uint8_t col);
 
-void oled_pos(/*row, column*/);
+void oled_clear_line(uint8_t line);
+
+void oled_pos(uint8_t line, uint8_t col);
 
 void oled_write_data(char data); // Volatile
 
