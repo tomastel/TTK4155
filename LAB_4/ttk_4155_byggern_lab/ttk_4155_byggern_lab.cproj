@@ -157,6 +157,9 @@
     <Compile Include="MISC\bit_drv.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MISC\fonts.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="MISC\common_includes.h">
       <SubType>compile</SubType>
     </Compile>
@@ -164,6 +167,21 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MISC\ext_button_drv.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MISC\fonts.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MISC\prints.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MISC\prints.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="OLED\menu.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="OLED\menu.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="OLED\oled_drv.c">

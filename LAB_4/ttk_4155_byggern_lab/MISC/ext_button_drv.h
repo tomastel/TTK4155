@@ -14,5 +14,4 @@
 
 void ext_button_drv_init(void);
 
-
 #endif /* EXT_BUTTON_DRV_H_ */

@@ -20,7 +20,11 @@ main.d main.o: .././main.c .././UARTdrv.h .././SRAM/SRAMdrv.h \
  .././SRAM/../MISC/bit_drv.h .././ADC/adc_drv.h \
  .././ADC/../MISC/common_includes.h .././MISC/ext_button_drv.h \
  .././MISC/common_includes.h .././MISC/../ADC/adc_drv.h \
- .././OLED/oled_drv.h .././OLED/../MISC/common_includes.h
+ .././OLED/oled_drv.h .././OLED/../MISC/common_includes.h \
+ .././OLED/../MISC/fonts.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
+ .././MISC/prints.h .././MISC/../UART_drv/UARTdrv.h \
+ .././MISC/../OLED/oled_drv.h
 
 .././UARTdrv.h:
 
@@ -77,3 +81,13 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././OLED/oled_drv.h:
 
 .././OLED/../MISC/common_includes.h:
+
+.././OLED/../MISC/fonts.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h:
+
+.././MISC/prints.h:
+
+.././MISC/../UART_drv/UARTdrv.h:
+
+.././MISC/../OLED/oled_drv.h:

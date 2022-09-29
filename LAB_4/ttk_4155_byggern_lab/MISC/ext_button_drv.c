@@ -6,6 +6,7 @@
  */
 #include "ext_button_drv.h"
 #include <avr/interrupt.h>
+#include "prints.h"
 
 #define LEFT_BUTTON_ISR_REGISTER INT0
 #define RIGHT_BUTTON_ISR_REGISTER INT1
@@ -15,32 +16,27 @@
 #define JOYSTICK_BUTTON_PIN PE0
 
 
+
 ISR (INT0_vect)
 {
-	printf("Left button pressed\r\n");
-
-
+	print_uart("Left button pressed\r\n");
 }
 
 ISR (INT1_vect)
 {
-	printf("Right button pressed\r\n");
+	print_uart("Right button pressed\r\n");
 }
 
 ISR (INT2_vect)
 {
-	printf("Joystick button pressed\r\n");
-
-
+	print_uart("Joystick button pressed\r\n");
+	
+	enter();
 }
-
 
 
 void ext_button_drv_init(void)
 {
-	/*
-	to do:			
-	*/
 	clear_bit(DDRD, LEFT_BUTTON_PIN);
 	clear_bit(DDRD, RIGHT_BUTTON_PIN);
 	clear_bit(DDRE, JOYSTICK_BUTTON_PIN);
@@ -62,7 +58,5 @@ void ext_button_drv_init(void)
 	set_bit(GICR, JOYSTICK_BUTTON_ISR_REGISTER);
 	
 	// Enables global interrupts
-	sei();	
-	
-	
+	sei();
 }

@@ -7,6 +7,7 @@
 
 #include "oled_drv.h"
 
+
 void oled_write_cmd(char command)
 {
 	volatile char *oled_cmd_reg = (char *) 0x1000;
@@ -47,6 +48,9 @@ void oled_init()
 	oled_write_cmd(0b11111111);
 	
 	oled_reset(); // Set all pixels low
+	
+	//stdout = &stdout_oled;
+	
 }
 
 void oled_reset()
@@ -95,9 +99,13 @@ void oled_write_data(char data) // Volatile
 	oled_data_reg[0] = data;
 }
 
-void oled_print(/*char**/)
+void oled_print(char c)
 {
-	
+	uint8_t font_index = c - 32;
+
+	for(uint8_t i = 0; i < 5; i++){
+		oled_write_data(pgm_read_byte(&(font5[font_index][i])));
+	}
 }
 
 void oled_set_brightness(uint8_t lvl_percent)
@@ -109,36 +117,43 @@ void oled_set_brightness(uint8_t lvl_percent)
 
 void oled_testingtesting()
 {
-	oled_pos(4, 0);
-	for(int i = 0; i < 50; i++){
-		oled_write_data(0b00011000); // write arrow
-		oled_write_data(0b00011000);
-		oled_write_data(0b01111110);
-		oled_write_data(0b00111100);
-		oled_write_data(0b00011000);
-		_delay_ms(50);
-	}
-	oled_clear_line(4);
-	oled_pos(0, 63);
-	for(int i = 0; i < 50; i++){
-		oled_write_data(0b00011000); // write arrow
-		oled_write_data(0b00011000);
-		oled_write_data(0b01111110);
-		oled_write_data(0b00111100);
-		oled_write_data(0b00011000);
-		_delay_ms(50);
-	}
-	oled_home();
-	for(int i = 0; i < 50; i++){
-		oled_write_data(0b00011000); // write arrow
-		oled_write_data(0b00011000);
-		oled_write_data(0b01111110);
-		oled_write_data(0b00111100);
-		oled_write_data(0b00011000);
-		_delay_ms(50);
-	}
-	oled_reset();
+	//oled_pos(4, 0);
+	//for(int i = 0; i < 50; i++){
+		//oled_write_data(0b00011000); // write arrow
+		//oled_write_data(0b00011000);
+		//oled_write_data(0b01111110);
+		//oled_write_data(0b00111100);
+		//oled_write_data(0b00011000);
+		//_delay_ms(50);
+	//}
+	//oled_clear_line(4);
+	//oled_pos(0, 63);
+	//for(int i = 0; i < 50; i++){
+		//oled_write_data(0b00011000); // write arrow
+		//oled_write_data(0b00011000);
+		//oled_write_data(0b01111110);
+		//oled_write_data(0b00111100);
+		//oled_write_data(0b00011000);
+		//_delay_ms(50);
+	//}
+	//oled_home();
+	//for(int i = 0; i < 50; i++){
+		//oled_write_data(0b00011000); // write arrow
+		//oled_write_data(0b00011000);
+		//oled_write_data(0b01111110);
+		//oled_write_data(0b00111100);
+		//oled_write_data(0b00011000);
+		//_delay_ms(50);
+	//}
+	//oled_reset();
+	//
 	
+	//oled_home();
+	//_delay_ms(2000);
+	//oled_reset();
+	//_delay_ms(2000);
+	
+	//print_both();
 	
 
 }

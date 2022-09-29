@@ -6,7 +6,13 @@ ADC\adc_drv.c
 
 main.c
 
+MISC\fonts.c
+
 MISC\ext_button_drv.c
+
+MISC\prints.c
+
+OLED\menu.c
 
 OLED\oled_drv.c
 

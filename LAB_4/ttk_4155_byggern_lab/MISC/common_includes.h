@@ -17,6 +17,4 @@
 #include "bit_drv.h"
 
 
-
-
 #endif /* COMMON_INCLUDES_H_ */
