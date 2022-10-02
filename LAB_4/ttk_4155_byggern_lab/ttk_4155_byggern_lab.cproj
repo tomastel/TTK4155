@@ -151,6 +151,9 @@
     <Compile Include="ADC\adc_drv.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="CFile1.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

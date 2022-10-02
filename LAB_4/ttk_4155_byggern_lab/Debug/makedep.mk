@@ -4,6 +4,8 @@
 
 ADC\adc_drv.c
 
+CFile1.c
+
 main.c
 
 MISC\fonts.c

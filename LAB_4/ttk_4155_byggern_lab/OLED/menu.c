@@ -1,116 +1,78 @@
 #include "menu.h"
 
-uint8_t num_options_in_menu;
-uint16_t menu_option_value;
-uint8_t arrow_on_line;
+static uint8_t num_options_in_menu;
+static uint8_t arrow_on_line;
+
+
+static menu_struct *current_menu;
+
+
+menu_struct Sub_menu_2 = {
+	.title = "Sub Menu 2",
+	.submenu = {
+		{ .option_name = "Action 1", .callback = &that_end },
+		{ .option_name = "Back", .callback = &update_menu }
+	},
+	.options = 2
+};
+
+menu_struct Sub_menu_1 = {
+	.title = "Sub Menu 1",
+	.submenu = {
+		{ .option_name = "Action 1", .callback = &this_end },
+		{ .option_name = "Back", .callback = &update_menu }
+	},
+	.options = 2
+};
+
+menu_struct main_menu = {
+	.title = "Main Menu",
+	.submenu = {
+		{ .option_name = "Sub Menu 1", .callback = &update_menu},
+		{ .option_name = "Sub Menu 2", .callback = &update_menu}
+	},
+	.options = 2
+};
+
 
 void this_end()
 {
-	print_uart("sug pikk");
+	print_uart("hei \r\n");
 }
 
-void back()
+void that_end()
 {
-	//enter_menu(current_menu.parent_menu);
+	print_uart("hallo \r\n");
 }
 
-menu_struct sub_menu_back = {
-	"Back",
-	0,
-	back,
-	NULL
-};
-
-menu_struct sub_menu_1_1_1 = {
-	"Submenu 1.1.1",
-	0,
-	this_end,
-	NULL
-};
-
-menu_struct sub_menu_1_1 = {
-	"Submenu 1.1",
-	1,
-	NULL,
-	{&sub_menu_1_1_1}
-};
-
-menu_struct sub_menu_1 = {
-	"Submenu 1",
-	1,
-	NULL,
-	{&sub_menu_1_1}
-};
-
-menu_struct sub_menu_2 = {
-	"Submenu 2",
-	1,
-	NULL,
-	NULL
-};
-
-
-menu_struct main_menu = {
-	"Main Menu",
-	2,
-	NULL,
-	{&sub_menu_1, &sub_menu_2}
-};
-
-menu_struct current_menu;
-
-void enter()
+void print_menu_page()
 {
-	enter_menu(current_menu.submenu[arrow_on_line-1]);
-	if (num_options_in_menu != 0)
-	{
-		menu_struct *temp = current_menu.submenu[arrow_on_line-1];
-		memcpy(&current_menu, &temp, sizeof(current_menu));
-	}
-}
-
-void enter_menu(menu_struct* menu)
-{
-	menu_struct* temp_menu = menu;
-	const char *this_title = temp_menu->title;
-	
+	char *menu_page_title = current_menu->title;
 	oled_reset();
 	oled_goto_line(0);
 	oled_goto_column(40);
-	print_oled(this_title);
+	print_oled(menu_page_title);
 	
-	uint8_t temp_num = temp_menu->num_options;
-	char* num = temp_num + '0';
-	print_uart(&num);
-	print_uart("\r\n");
-	
-	if(temp_num == 0)
+	for(uint8_t i = 0; i < current_menu->options; i++)
 	{
-		print_uart("fsaffsafsa");
-		num_options_in_menu = 0;
-		menu->command();
-		
-		return;
-	}
-	print_uart("her");
-	for(uint8_t i = 0; i < temp_menu->num_options; i++)
-	{
-		menu_struct* temp_submenu = temp_menu->submenu[i];
-		char *tit = temp_submenu->title;
+		char *option = current_menu->submenu[i].option_name;
 		oled_goto_line(i+1);
 		oled_goto_column(8);
-		print_oled(tit);
+		print_oled(option);
 	}
-	num_options_in_menu = menu->num_options;
+	
 	oled_pos(FIRST_LINE_MENU, 0);
 	print_arrow();
 	arrow_on_line = FIRST_LINE_MENU;
+	
 }
 
-void menu_init()
+void update_menu(void *menu_page)
 {
-	current_menu = main_menu;
-	enter_menu(&current_menu);
+	menu_struct *temp_menu_page = menu_page;
+	current_menu = temp_menu_page;
+	num_options_in_menu = temp_menu_page->options;
+	print_menu_page();
 }
 
 void menu_navigate()
@@ -127,7 +89,6 @@ void menu_navigate()
 	}
 	last_dir = dir;
 }
-
 
 void print_arrow()
 {
@@ -151,7 +112,6 @@ void move_arrow_up()
 		oled_goto_column(0);
 		clear_arrow();
 		arrow_on_line--;
-		menu_option_value--;
 		oled_goto_line(arrow_on_line);
 		oled_goto_column(0);
 		print_arrow();
@@ -166,9 +126,23 @@ void move_arrow_down()
 		oled_goto_column(0);
 		clear_arrow();
 		arrow_on_line++;
-		menu_option_value++;
 		oled_goto_line(arrow_on_line);
 		oled_goto_column(0);
 		print_arrow();
 	}
+}
+
+void enter()
+{
+	option_struct current_option = current_menu->submenu[arrow_on_line-1];
+	(*current_option.callback)(current_option.callback_parameter);
+}
+
+void menu_init()
+{
+	main_menu.submenu[0].callback_parameter = &Sub_menu_1;
+	main_menu.submenu[1].callback_parameter = &Sub_menu_2;
+	Sub_menu_1.submenu[1].callback_parameter = &main_menu;
+	Sub_menu_2.submenu[1].callback_parameter = &main_menu;
+	update_menu(&main_menu);
 }

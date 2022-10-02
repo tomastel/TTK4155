@@ -20,32 +20,34 @@
 #include "oled_drv.h"
 #include "../ADC/adc_drv.h"
 
-typedef struct  
+
+
+typedef struct
+{
+	char option_name[MENU_OPTION_MAX_STRING_LENGTH];
+	void(*callback)(void*);
+	void *callback_parameter;
+	
+}option_struct;
+
+typedef struct
 {
 	char title[MENU_OPTION_MAX_STRING_LENGTH];
-	uint8_t num_options;
-	void (*command)();
-	//const char options[num_options][MENU_OPTION_MAX_STRING_LENGTH];
-	struct menu_struct* submenu[MAX_SUBMENUS];
-	//struct menu_struct *parent_menu;
+	option_struct submenu[MAX_SUBMENUS];
+	int options;
 	
 }menu_struct;
 
+
 void this_end();
 
-void enter();
+void that_end();
 
-void enter_menu(menu_struct* menu);
+void print_menu_page();
 
-void menu_init();
-
-void menu_print(int screen);
-
-void main_menu_print();
+void update_menu(void *menu_page);
 
 void menu_navigate();
-
-void menu_option_value_enter();
 
 void print_arrow();
 
@@ -55,5 +57,8 @@ void move_arrow_up();
 
 void move_arrow_down();
 
+void enter();
 
-#endif /* MENU.C_H_ */
+void menu_init();
+
+#endif /* MENU_H_ */

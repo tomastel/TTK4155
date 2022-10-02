@@ -16,7 +16,6 @@
 #define JOYSTICK_BUTTON_PIN PE0
 
 
-
 ISR (INT0_vect)
 {
 	print_uart("Left button pressed\r\n");
@@ -30,8 +29,8 @@ ISR (INT1_vect)
 ISR (INT2_vect)
 {
 	print_uart("Joystick button pressed\r\n");
-	
 	enter();
+	
 }
 
 

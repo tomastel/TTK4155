@@ -17,11 +17,7 @@
 #include "OLED/oled_drv.h"
 #include "MISC/prints.h"
 
-int main(void){
-	
-	pos_t joystick_pos;
-	dir_t joystick_dir;
-	uint8_t slider1, slider2;
+void init(){
 	USART_drv_init(MYUBRR);
 	SRAM_init();
 	adc_drv_init();
@@ -29,27 +25,17 @@ int main(void){
 	adc_calibrate();
 	oled_init();
 	menu_init();
+}
 
+int main(void){
+	
+	pos_t joystick_pos;
+	dir_t joystick_dir;
+	uint8_t slider1, slider2;
+	
+	init();
     while (1){
-		
-		//printf("----------------------------------\r\n");
-		//joystick_pos = pos_read();
-		//joystick_dir = dir_read(joystick_pos);
-		//slider1 = slider_read(LEFT_SLIDER_CHANNEL);
-		//slider2 = slider_read(RIGHT_SLIDER_CHANNEL);
-		//printf("X: %d\r\n", joystick_pos.X);
-		//printf("Y: %d\r\n", joystick_pos.Y);
-		//printf("Joystick direction: %d\r\n", joystick_dir);
-		//printf("Left slider: %d\r\n", slider1);
-		//printf("Right slider: %d\r\n", slider2);
-		//printf("----------------------------------\r\n");
-		//oled_testingtesting();
-		//_delay_ms(10);
-		
 		menu_navigate();
-		
-
-		
     }
 	
 	return 0;
