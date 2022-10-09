@@ -17,6 +17,7 @@ main.d main.o: .././main.c .././UART_drv/UARTdrv.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  .././UART_drv/../MISC/bit_drv.h .././SRAM/SRAMdrv.h \
  .././SRAM/../MISC/common_includes.h .././ADC/adc_drv.h \
  .././ADC/../MISC/common_includes.h .././MISC/ext_button_drv.h \
@@ -28,8 +29,10 @@ main.d main.o: .././main.c .././UART_drv/UARTdrv.h \
  .././MISC/../OLED/oled_drv.h .././MCP2515/MCP2515drv.h \
  .././MCP2515/../MISC/common_includes.h .././MCP2515/MCP2515_registers.h \
  .././MCP2515/../SPI/SPIdrv.h \
- .././MCP2515/../SPI/../MISC/common_includes.h .././CAN/CANdrv.h \
- .././CAN/../MISC/common_includes.h .././CAN/../MCP2515/MCP2515drv.h
+ .././MCP2515/../SPI/../MISC/common_includes.h \
+ .././MCP2515/../MISC/prints.h .././CAN/CANdrv.h \
+ .././CAN/../MISC/common_includes.h .././CAN/../MCP2515/MCP2515drv.h \
+ .././CAN/../MISC/prints.h
 
 .././UART_drv/UARTdrv.h:
 
@@ -68,6 +71,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
 
 .././UART_drv/../MISC/bit_drv.h:
 
@@ -109,8 +114,12 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././MCP2515/../SPI/../MISC/common_includes.h:
 
+.././MCP2515/../MISC/prints.h:
+
 .././CAN/CANdrv.h:
 
 .././CAN/../MISC/common_includes.h:
 
 .././CAN/../MCP2515/MCP2515drv.h:
+
+.././CAN/../MISC/prints.h:

@@ -10,11 +10,12 @@
 #define COMMON_INCLUDES_H_
 #define F_CPU 4.9152E6
 
-
 #include <avr/io.h>
 #include <stdio.h>
 #include <util/delay.h>
 #include <math.h>
+#include <avr/interrupt.h>
+
 #include "bit_drv.h"
 
 #endif /* COMMON_INCLUDES_H_ */

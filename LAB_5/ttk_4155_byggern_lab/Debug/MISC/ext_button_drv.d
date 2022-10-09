@@ -17,10 +17,10 @@ MISC/ext_button_drv.d MISC/ext_button_drv.o: ../MISC/ext_button_drv.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
- ../MISC/bit_drv.h ../MISC/../ADC/adc_drv.h \
- ../MISC/../ADC/../MISC/common_includes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
- ../MISC/prints.h ../MISC/../UART_drv/UARTdrv.h \
+ ../MISC/bit_drv.h ../MISC/../ADC/adc_drv.h \
+ ../MISC/../ADC/../MISC/common_includes.h ../MISC/prints.h \
+ ../MISC/../UART_drv/UARTdrv.h \
  ../MISC/../UART_drv/../MISC/common_includes.h ../MISC/../OLED/oled_drv.h \
  ../MISC/../OLED/../MISC/common_includes.h \
  ../MISC/../OLED/../MISC/fonts.h \
@@ -64,13 +64,13 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
 
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
+
 ../MISC/bit_drv.h:
 
 ../MISC/../ADC/adc_drv.h:
 
 ../MISC/../ADC/../MISC/common_includes.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
 
 ../MISC/prints.h:
 

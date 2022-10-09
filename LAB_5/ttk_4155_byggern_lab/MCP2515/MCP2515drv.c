@@ -7,7 +7,7 @@
 
 #include "MCP2515drv.h"
 
-uint8_t MCP2515_init()
+int8_t MCP2515_init()
  {
 	 int value;
 	 SPI_init(); // Initialize SPI
@@ -16,17 +16,17 @@ uint8_t MCP2515_init()
 	 value = MCP2515_read(MCP_CANSTAT);
 	 if ((value & MODE_MASK) != MODE_CONFIG){
 		 print_uart("MCP2515 is NOT in configuration mode after reset!\r\n");
-		 return 1;
+		 return -1;
 	 }
 	 
 	 MCP2515_write(MCP_TXRTSCTRL, MCP_TXRTS_CONF);
 	 
 	 // Receive buffer0 config: receive all messages, no overflow to RXB1.
-	 MCP2515_bit_modify(MCP_RXB0CTRL, 0x64, 0x60);
+	 MCP2515_bit_modify(MCP_RXB0CTRL, 0x60, 0x60);
 	 value = MCP2515_read(MCP_RXB0CTRL);
 	 if (value != 0x60){
 		 print_uart("Receive buffer 0 config incorrect!\r\n");
-		 return 2;
+		 return -2;
 	 }
 	 
 	 // Receive buffer1 config: receive all messages.
@@ -35,15 +35,16 @@ uint8_t MCP2515_init()
 	 print_uart(value);
 	 if (value != 0x60){
 		 print_uart("Receive buffer 1 config incorrect!\r\n");
-		 return 3;
+		 return -3;
 	 }	 
 	 
 	 // Interrupt config: msg error, error flag change, TX0 empty, RX0 full
-	 MCP2515_bit_modify(MCP_CANINTE, 0xFF, 0xA5);
+	 //MCP2515_bit_modify(MCP_CANINTE, 0xFF, 0xA5);
+	 MCP2515_bit_modify(MCP_CANINTE, 0xFF, 0x5);
 	 value = MCP2515_read(MCP_CANINTE);
-	 if (value != 0xA5){
+	 if (value != 0x5){
 		 print_uart("Interrupt config incorrect!\r\n");
-		 return 4;
+		 return -4;
 	 } 
 	 
 	 MCP2515_write(MCP_CANCTRL, MODE_LOOPBACK);
@@ -51,9 +52,9 @@ uint8_t MCP2515_init()
 	 value = MCP2515_read(MCP_CANSTAT);
 	 if ((value & MODE_MASK) != MODE_LOOPBACK){
 		 print_uart(" MCP2515 is NOT in loopback mode!\n");
-		 return 5;
+		 return -5;
 	 }
-	 
+
 	 return 0;
  }
 
@@ -112,5 +113,13 @@ void MCP2515_reset()
 
 uint8_t MCP2515_read_status()
 {
-	return MCP2515_read(MCP_READ_STATUS);	
+	uint8_t data;
+	
+	clear_bit(PORTB, PB4);
+	SPI_write(MCP_READ_STATUS);
+	data = SPI_read();
+	data = SPI_read();
+	set_bit(PORTB, PB4);
+	
+	return data;
 }

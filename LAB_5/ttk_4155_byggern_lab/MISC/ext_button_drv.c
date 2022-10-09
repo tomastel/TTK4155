@@ -5,7 +5,6 @@
  *  Author: khuongh
  */
 #include "ext_button_drv.h"
-#include <avr/interrupt.h>
 #include "prints.h"
 
 
@@ -30,11 +29,9 @@ void ext_button_drv_init(void)
 	cli();
 	// Enables interrupt on pin INT1
 	set_bit(GICR, RIGHT_BUTTON_ISR_REGISTER);
-	// Configures interrupt rising edge on INT2, INT1 & INT0
+	// Configures interrupt rising edge on INT1
 	set_bit(MCUCR, ISC11);
 	set_bit(MCUCR, ISC10);
-	set_bit(MCUCR, ISC01);
-	set_bit(MCUCR, ISC00);
 	//set_bit(EMCUCR, ISC2);
 	//Configuring and enabling Joystick interrupt pin INT2
 	clear_bit(GICR, JOYSTICK_BUTTON_PIN);

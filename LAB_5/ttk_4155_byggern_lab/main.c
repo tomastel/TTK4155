@@ -7,9 +7,6 @@
 
 #define F_CPU 4.9152E6
 
-//#include <avr/io.h>
-//#include <stdio.h>
-
 #include "UART_drv/UARTdrv.h"
 #include "SRAM/SRAMdrv.h"
 #include "ADC/adc_drv.h"
@@ -27,8 +24,8 @@ void init(){
 	ext_button_drv_init();
 	adc_calibrate();
 	oled_init();
-	menu_init();
-	MCP2515_init();
+	//menu_init();
+	CAN_init();
 }
 
 int main(void)
@@ -38,11 +35,17 @@ int main(void)
 	uint8_t slider1, slider2;
 
 	init();
+	
+	CAN_msg CAN_test = {
+		.ID = 818,
+		.length = 8,
+		.message = {65, 66, 67, 68, 69, 70, 71, 72}
+	};
 
     while (1){
+		CAN_send(CAN_test);
 		_delay_ms(3000);
-		menu_navigate();
-		MCP2515_write(0x00, 0x6B);	
+		//uint8_t bla = MCP2515_read(MCP_RXF0SIDL);
     }
 	
 	return 0;

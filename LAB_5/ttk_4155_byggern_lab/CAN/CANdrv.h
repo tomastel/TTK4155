@@ -11,6 +11,7 @@
 
 #include "../MISC/common_includes.h"
 #include "../MCP2515/MCP2515drv.h"
+#include "../MISC/prints.h"
 
 #define CAN_INTERRUPT_ISR_REGISTER INT0
 #define CAN_INTERRUPT_PIN PD2
@@ -18,17 +19,15 @@
 typedef struct{
 	uint16_t ID;
 	uint8_t length; // Length in bytes
-	char *message[8];
+	char message[8];
 }CAN_msg;
 
-void CAN_init();
+int8_t CAN_init();
 
-void CAN_send(CAN_msg msg);
+int8_t CAN_send(CAN_msg msg);
 
-void CAN_receive();
+CAN_msg CAN_receive(uint8_t buffer);
 
-//CAN_msg CAN_read();
-
-
+void CAN_interpret_status(uint8_t status);
 
 #endif /* CANDRV_H_ */

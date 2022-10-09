@@ -17,10 +17,20 @@ CAN/CANdrv.d CAN/CANdrv.o: ../CAN/CANdrv.c ../CAN/CANdrv.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  ../CAN/../MISC/bit_drv.h ../CAN/../MCP2515/MCP2515drv.h \
  ../CAN/../MCP2515/../MISC/common_includes.h \
  ../CAN/../MCP2515/MCP2515_registers.h ../CAN/../MCP2515/../SPI/SPIdrv.h \
- ../CAN/../MCP2515/../SPI/../MISC/common_includes.h
+ ../CAN/../MCP2515/../SPI/../MISC/common_includes.h \
+ ../CAN/../MCP2515/../MISC/prints.h \
+ ../CAN/../MCP2515/../MISC/common_includes.h \
+ ../CAN/../MCP2515/../MISC/../UART_drv/UARTdrv.h \
+ ../CAN/../MCP2515/../MISC/../UART_drv/../MISC/common_includes.h \
+ ../CAN/../MCP2515/../MISC/../OLED/oled_drv.h \
+ ../CAN/../MCP2515/../MISC/../OLED/../MISC/common_includes.h \
+ ../CAN/../MCP2515/../MISC/../OLED/../MISC/fonts.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
+ ../CAN/../MISC/prints.h
 
 ../CAN/CANdrv.h:
 
@@ -60,6 +70,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
 
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
+
 ../CAN/../MISC/bit_drv.h:
 
 ../CAN/../MCP2515/MCP2515drv.h:
@@ -71,3 +83,21 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../CAN/../MCP2515/../SPI/SPIdrv.h:
 
 ../CAN/../MCP2515/../SPI/../MISC/common_includes.h:
+
+../CAN/../MCP2515/../MISC/prints.h:
+
+../CAN/../MCP2515/../MISC/common_includes.h:
+
+../CAN/../MCP2515/../MISC/../UART_drv/UARTdrv.h:
+
+../CAN/../MCP2515/../MISC/../UART_drv/../MISC/common_includes.h:
+
+../CAN/../MCP2515/../MISC/../OLED/oled_drv.h:
+
+../CAN/../MCP2515/../MISC/../OLED/../MISC/common_includes.h:
+
+../CAN/../MCP2515/../MISC/../OLED/../MISC/fonts.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h:
+
+../CAN/../MISC/prints.h:

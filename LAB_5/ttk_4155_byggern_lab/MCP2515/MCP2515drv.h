@@ -12,12 +12,13 @@
 #include "../MISC/common_includes.h"
 #include "MCP2515_registers.h"
 #include "../SPI/SPIdrv.h"
+#include "../MISC/prints.h"
 
 #define MCP_FOSC 16E6
 #define MCP_TXRTS_CONF 0x07
 #define MCP_BRP 0
 
-uint8_t MCP2515_init();
+int8_t MCP2515_init();
 
 uint8_t MCP2515_read(uint8_t read_register);
 

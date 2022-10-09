@@ -47,7 +47,6 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../ADC/adc_drv.c \
 ../CAN/CANdrv.c \
-../CFile1.c \
 ../main.c \
 ../MCP2515/MCP2515drv.c \
 ../MISC/fonts.c \
@@ -69,7 +68,6 @@ ASM_SRCS +=
 OBJS +=  \
 ADC/adc_drv.o \
 CAN/CANdrv.o \
-CFile1.o \
 main.o \
 MCP2515/MCP2515drv.o \
 MISC/fonts.o \
@@ -84,7 +82,6 @@ UART_drv/UARTdrv.o
 OBJS_AS_ARGS +=  \
 ADC/adc_drv.o \
 CAN/CANdrv.o \
-CFile1.o \
 main.o \
 MCP2515/MCP2515drv.o \
 MISC/fonts.o \
@@ -99,7 +96,6 @@ UART_drv/UARTdrv.o
 C_DEPS +=  \
 ADC/adc_drv.d \
 CAN/CANdrv.d \
-CFile1.d \
 main.d \
 MCP2515/MCP2515drv.d \
 MISC/fonts.d \
@@ -114,7 +110,6 @@ UART_drv/UARTdrv.d
 C_DEPS_AS_ARGS +=  \
 ADC/adc_drv.d \
 CAN/CANdrv.d \
-CFile1.d \
 main.d \
 MCP2515/MCP2515drv.d \
 MISC/fonts.d \
@@ -148,13 +143,6 @@ ADC/adc_drv.o: ../ADC/adc_drv.c
 	
 
 CAN/CANdrv.o: ../CAN/CANdrv.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-./CFile1.o: .././CFile1.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

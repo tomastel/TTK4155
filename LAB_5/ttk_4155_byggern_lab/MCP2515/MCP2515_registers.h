@@ -56,8 +56,11 @@
 #define MCP_TXB2CTRL	0x50
 #define MCP_RXB0CTRL	0x60
 #define MCP_RXB0SIDH	0x61
+#define MCP_RXB0SIDL	0x62
+#define MCP_RXB0DLC		0x65
 #define MCP_RXB1CTRL	0x70
 #define MCP_RXB1SIDH	0x71
+#define MCP_RXB1SIDL	0x72
 
 
 #define MCP_TX_INT		0x1C		// Enable all transmit interrupts
@@ -152,7 +155,7 @@
 
 #define MCP_TXRTSCTRL	0x0D
 
-// CAN tramsmit buffer 0 message ID and message length registers
+// CAN transmit buffer 0 message ID and message length registers
 
 #define MCP_TXB0SIDH	0x31
 #define MCP_TXB0SIDL	0x32
@@ -162,5 +165,22 @@
 
 #define MCP_TXB0D0	0x36
 
+// CAN receive buffer 0 message registers
+
+#define MCP_RXB0D0	0x66 
+
+// CAN read status bits
+
+#define rx_buff_0_full	0x01
+#define rx_buff_1_full	0x02
+#define tx_buff_0_busy	0x04
+#define tx_buff_0_empty	0x08
+#define tx_buff_1_busy	0x10
+#define tx_buff_1_empty	0x20
+#define tx_buff_2_busy	0x40
+#define tx_buff_2_empty	0x80
+
+// CAN Transmit Buffer Data Length Code
+#define TXB0DLC	0x35
 
 #endif /* MCP2515_REGISTERS_H_ */
