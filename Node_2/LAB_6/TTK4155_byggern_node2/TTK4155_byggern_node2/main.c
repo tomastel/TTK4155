@@ -18,24 +18,23 @@ void inits(){
 	SystemInit();
 	LEDs_init();
 	configure_uart();	
-	can_init_def_tx_rx_mb(CAN_BAUDRATE_REG);	
+	can_init_def_tx_rx_mb(CAN_BAUDRATE_REG);
+	WDT->WDT_MR = WDT_MR_WDDIS;
 }
 
 int main(void)
 {
-	
 	inits();
-	printf("dsadsa\n\r");
 	CAN_MESSAGE CAN_test = {
 		.id = 818,
 		.data_length = 8,
 		.data = {77, 101, 108, 100, 105, 110, 103, 33}
 	};
-	//WDT->WDT_MR = WDT_MR_WDDIS; 
+
 	can_send(&CAN_test, 0);
+	printf("Heiheihallo heiheiheibrfgmbpreogmmrgklegmrnoigm\n\r");
     while (1) 
     {
-		
 		LEDs_blink();
     }
 }

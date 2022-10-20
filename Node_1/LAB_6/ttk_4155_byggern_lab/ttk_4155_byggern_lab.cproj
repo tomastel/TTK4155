@@ -193,6 +193,12 @@
     <Compile Include="MISC\prints.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MISC\timer_counter.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MISC\timer_counter.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="OLED\menu.c">
       <SubType>compile</SubType>
     </Compile>

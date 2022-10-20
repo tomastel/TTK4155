@@ -1,5 +1,5 @@
-main.d main.o: .././main.c .././UART_drv/UARTdrv.h \
- .././UART_drv/../MISC/common_includes.h \
+MISC/timer_counter.d MISC/timer_counter.o: ../MISC/timer_counter.c \
+ ../MISC/timer_counter.h ../MISC/prints.h ../MISC/common_includes.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -19,25 +19,17 @@ main.d main.o: .././main.c .././UART_drv/UARTdrv.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
- .././UART_drv/../MISC/bit_drv.h .././SRAM/SRAMdrv.h \
- .././SRAM/../MISC/common_includes.h .././ADC/adc_drv.h \
- .././ADC/../MISC/common_includes.h .././MISC/ext_button_drv.h \
- .././MISC/common_includes.h .././MISC/../ADC/adc_drv.h \
- .././OLED/oled_drv.h .././OLED/../MISC/common_includes.h \
- .././OLED/../MISC/fonts.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
- .././MISC/prints.h .././MISC/../UART_drv/UARTdrv.h \
- .././MISC/../OLED/oled_drv.h .././MCP2515/MCP2515drv.h \
- .././MCP2515/../MISC/common_includes.h .././MCP2515/MCP2515_registers.h \
- .././MCP2515/../SPI/SPIdrv.h \
- .././MCP2515/../SPI/../MISC/common_includes.h \
- .././MCP2515/../MISC/prints.h .././CAN/CANdrv.h \
- .././CAN/../MISC/common_includes.h .././CAN/../MCP2515/MCP2515drv.h \
- .././CAN/../MISC/prints.h .././MISC/timer_counter.h
+ ../MISC/bit_drv.h ../MISC/../UART_drv/UARTdrv.h \
+ ../MISC/../UART_drv/../MISC/common_includes.h ../MISC/../OLED/oled_drv.h \
+ ../MISC/../OLED/../MISC/common_includes.h \
+ ../MISC/../OLED/../MISC/fonts.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h
 
-.././UART_drv/UARTdrv.h:
+../MISC/timer_counter.h:
 
-.././UART_drv/../MISC/common_includes.h:
+../MISC/prints.h:
+
+../MISC/common_includes.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -77,54 +69,16 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
 
-.././UART_drv/../MISC/bit_drv.h:
+../MISC/bit_drv.h:
 
-.././SRAM/SRAMdrv.h:
+../MISC/../UART_drv/UARTdrv.h:
 
-.././SRAM/../MISC/common_includes.h:
+../MISC/../UART_drv/../MISC/common_includes.h:
 
-.././ADC/adc_drv.h:
+../MISC/../OLED/oled_drv.h:
 
-.././ADC/../MISC/common_includes.h:
+../MISC/../OLED/../MISC/common_includes.h:
 
-.././MISC/ext_button_drv.h:
-
-.././MISC/common_includes.h:
-
-.././MISC/../ADC/adc_drv.h:
-
-.././OLED/oled_drv.h:
-
-.././OLED/../MISC/common_includes.h:
-
-.././OLED/../MISC/fonts.h:
+../MISC/../OLED/../MISC/fonts.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h:
-
-.././MISC/prints.h:
-
-.././MISC/../UART_drv/UARTdrv.h:
-
-.././MISC/../OLED/oled_drv.h:
-
-.././MCP2515/MCP2515drv.h:
-
-.././MCP2515/../MISC/common_includes.h:
-
-.././MCP2515/MCP2515_registers.h:
-
-.././MCP2515/../SPI/SPIdrv.h:
-
-.././MCP2515/../SPI/../MISC/common_includes.h:
-
-.././MCP2515/../MISC/prints.h:
-
-.././CAN/CANdrv.h:
-
-.././CAN/../MISC/common_includes.h:
-
-.././CAN/../MCP2515/MCP2515drv.h:
-
-.././CAN/../MISC/prints.h:
-
-.././MISC/timer_counter.h:

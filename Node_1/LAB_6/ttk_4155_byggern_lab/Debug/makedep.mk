@@ -16,6 +16,8 @@ MISC\ext_button_drv.c
 
 MISC\prints.c
 
+MISC\timer_counter.c
+
 OLED\menu.c
 
 OLED\oled_drv.c
