@@ -16,7 +16,8 @@
 
 void PWM_init()
 {
-	PIOC->PIO_PER = PIO_PC22;
+	//Enable pin to Peripheral
+	PIOC->PIO_PER = PIO_PC22B_PWML5;
 	// Disable PWM control register write protect
 	PWM_WPCR_WPKEY(PWM_WPCR_KEY);
 	// Disable write protection on all PWM register groups (ref ATSAM datasheet page 1037)
@@ -35,12 +36,8 @@ void PWM_init()
 	//Sets channel 0 Duty Cycle to 1,5 ms, mid position for servo
 	PWM->PWM_CH_NUM[5].PWM_CDTY = PWM_CDTY_CDTY(0xEA);
 	
-	//Enables PWM channel 0
+	//Enables PWM channel 0 
 	PWM->PWM_ENA = PWM_ENA_CHID5;
-	
-	PWM_WPCR_WPKEY(PWM_WPCR_KEY);
-	// Disable write protection on all PWM register groups (ref ATSAM datasheet page 1037)
-	PWM->PWM_WPCR = PWM_WPCR_WPRG0 | PWM_WPCR_WPRG1 | PWM_WPCR_WPRG2 | PWM_WPCR_WPRG3 | PWM_WPCR_WPRG4 | PWM_WPCR_WPRG5;
-	PWM_WPCR_WPCMD(0x1);
+
 	
 }

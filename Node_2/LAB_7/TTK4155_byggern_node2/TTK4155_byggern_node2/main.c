@@ -20,15 +20,17 @@ void inits(){
 	LEDs_init();
 	configure_uart();	
 	can_init_def_tx_rx_mb(CAN_BAUDRATE_REG);
-	//PWM_init();
+	PWM_init();
 	WDT->WDT_MR = WDT_MR_WDDIS;
 }
 
 int main(void)
 {
+	//Set PMC timer, this has to be checked
 	PMC->PMC_WPMR = PMC_WPMR_WPKEY_PASSWD;
 	PMC->PMC_WPMR = 0;
 	PMC->PMC_PCER0 = 0xFFFF;
+	PMC->PMC_PCER1 = 0xFFFF;
 	inits();
 	printf("Program initialized\n\r");
 	CAN_MESSAGE CAN_test = {
@@ -36,8 +38,7 @@ int main(void)
 		.data_length = 8,
 		.data = {77, 101, 108, 100, 105, 110, 103, 33}
 	};
-	PWM->PWM_ENA = 32;
-	uint32_t my_reg = PMC->PMC_PCSR0;
+	uint32_t my_reg = PWM->PWM_SR;
 	printf("this reg: %d \r\n", my_reg);
 	can_send(&CAN_test, 0);
 	
