@@ -11,8 +11,7 @@
 
 #define FIRST_LINE_MENU 1
 #define LAST_LINE_MENU 7
-#define OPTIONS_MAIN_MENU 7
-#define MAX_SUBMENUS 7
+#define MAX_SUBMENUS 4 // If >6, data memory usage > 100%
 #define MENU_OPTION_MAX_STRING_LENGTH 24
 
 #include <string.h>

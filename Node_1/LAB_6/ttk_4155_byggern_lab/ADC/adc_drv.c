@@ -11,6 +11,7 @@ uint8_t offset_x = 0;
 uint8_t offset_y = 0;
 fun_stick_t last_fun_stick;
 
+
 void adc_drv_init()
 {
 	// to do:
@@ -27,16 +28,13 @@ void adc_drv_init()
 	TCCR1A |= ( 1 << COM1A0); // Toggle Compare
 	TCCR1A &= ~( 1 << COM1B1); // Set on Compare
 	TCCR1A &= ~( 1 << COM1B0); // Set on Compare
-	
 		
 	TCCR1B &= ~( 1 << CS12); // Prescaler
 	TCCR1B &= ~( 1 << CS11); // Prescaler
 	TCCR1B |= ( 1 << CS10); // Prescaler
 	
-	
 	TCCR1A &= ~(1 << FOC1A);
 	TCCR1A &= ~(1 << FOC1B);
-		
 }
 
 fun_stick_t adc_drv_fun_stick_get()
@@ -49,15 +47,29 @@ bool adc_drv_joystick_update()
 	fun_stick_t current_fun_stick;
 	current_fun_stick.position = pos_read();
 	current_fun_stick.direction = dir_read(current_fun_stick.position);
-	
+
 	if ((current_fun_stick.direction != last_fun_stick.direction) ||
-	 (current_fun_stick.position.X != last_fun_stick.position.X) ||
-	 (current_fun_stick.position.Y != last_fun_stick.position.Y)) {
-		 last_fun_stick = current_fun_stick;
-		 return true;
-	 }
+		(abs(current_fun_stick.position.X - last_fun_stick.position.X) >= ADC_JOYSTICK_POS_THRESHOLD) ||
+		(abs(current_fun_stick.position.Y - last_fun_stick.position.Y) >= ADC_JOYSTICK_POS_THRESHOLD)) {
+			last_fun_stick = current_fun_stick;
+			return true;
+		}
 	 else return false;
 }
+
+//if ((current_fun_stick.direction != last_fun_stick.direction) ||
+//(abs(current_fun_stick.position.X - last_fun_stick.position.X) >= ADC_JOYSTICK_POS_THRESHOLD) ||
+//(abs(current_fun_stick.position.Y - last_fun_stick.position.Y) >= ADC_JOYSTICK_POS_THRESHOLD)) {
+	//last_fun_stick = current_fun_stick;
+	//return true;
+//}
+
+//if ((current_fun_stick.direction != last_fun_stick.direction) ||
+	 //(current_fun_stick.position.X != last_fun_stick.position.X) ||
+	 //(current_fun_stick.position.Y != last_fun_stick.position.Y)) {
+		 //last_fun_stick = current_fun_stick;
+		 //return true;
+	 //}
 
 uint8_t adc_read(uint8_t channel)
 {
@@ -83,7 +95,6 @@ void adc_calibrate()
 	offset_x = adc_read(JOYSTICK_X_CHANNEL);
 	offset_y = adc_read(JOYSTICK_Y_CHANNEL);
 	
-	
 	//printf("offset_x: %d, offset_y: %d\r\n", offset_x, offset_y);
 }
 
@@ -107,28 +118,28 @@ pos_t pos_read()
 
 dir_t dir_read(pos_t positions)
 {	
-	if (abs(positions.X) <= ADC_JOYSTICK_THRESHOLD) {
-		if (abs(positions.Y) <= ADC_JOYSTICK_THRESHOLD) {
+	if (abs(positions.X) <= ADC_JOYSTICK_DIR_THRESHOLD) {
+		if (abs(positions.Y) <= ADC_JOYSTICK_DIR_THRESHOLD) {
 			return NEUTRAL;
-		} else if (positions.Y > ADC_JOYSTICK_THRESHOLD) {
+		} else if (positions.Y > ADC_JOYSTICK_DIR_THRESHOLD) {
 			return UP;
-		} else if (positions.Y < ADC_JOYSTICK_THRESHOLD) {
+		} else if (positions.Y < ADC_JOYSTICK_DIR_THRESHOLD) {
 			return DOWN;
 		}
-	} else if (positions.X > ADC_JOYSTICK_THRESHOLD) {
-		if (abs(positions.Y) <= ADC_JOYSTICK_THRESHOLD) {
+	} else if (positions.X > ADC_JOYSTICK_DIR_THRESHOLD) {
+		if (abs(positions.Y) <= ADC_JOYSTICK_DIR_THRESHOLD) {
 			return RIGHT;
-		} else if (positions.Y > ADC_JOYSTICK_THRESHOLD) {
+		} else if (positions.Y > ADC_JOYSTICK_DIR_THRESHOLD) {
 			return UP_RIGHT;
-		} else if (positions.Y < ADC_JOYSTICK_THRESHOLD) {
+		} else if (positions.Y < ADC_JOYSTICK_DIR_THRESHOLD) {
 			return DOWN_RIGHT;
 		}
-	} else if (positions.X < ADC_JOYSTICK_THRESHOLD) {
-		if (abs(positions.Y) <= ADC_JOYSTICK_THRESHOLD) {
+	} else if (positions.X < ADC_JOYSTICK_DIR_THRESHOLD) {
+		if (abs(positions.Y) <= ADC_JOYSTICK_DIR_THRESHOLD) {
 			return LEFT;
-		} else if (positions.Y > ADC_JOYSTICK_THRESHOLD) {
+		} else if (positions.Y > ADC_JOYSTICK_DIR_THRESHOLD) {
 			return UP_LEFT;
-		} else if (positions.Y < ADC_JOYSTICK_THRESHOLD) {
+		} else if (positions.Y < ADC_JOYSTICK_DIR_THRESHOLD) {
 			return DOWN_LEFT;
 		}
 	}

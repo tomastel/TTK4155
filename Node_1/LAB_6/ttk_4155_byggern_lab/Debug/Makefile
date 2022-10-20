@@ -52,6 +52,7 @@ C_SRCS +=  \
 ../MISC/fonts.c \
 ../MISC/ext_button_drv.c \
 ../MISC/prints.c \
+../MISC/timer_counter.c \
 ../OLED/menu.c \
 ../OLED/oled_drv.c \
 ../SPI/SPIdrv.c \
@@ -73,6 +74,7 @@ MCP2515/MCP2515drv.o \
 MISC/fonts.o \
 MISC/ext_button_drv.o \
 MISC/prints.o \
+MISC/timer_counter.o \
 OLED/menu.o \
 OLED/oled_drv.o \
 SPI/SPIdrv.o \
@@ -87,6 +89,7 @@ MCP2515/MCP2515drv.o \
 MISC/fonts.o \
 MISC/ext_button_drv.o \
 MISC/prints.o \
+MISC/timer_counter.o \
 OLED/menu.o \
 OLED/oled_drv.o \
 SPI/SPIdrv.o \
@@ -101,6 +104,7 @@ MCP2515/MCP2515drv.d \
 MISC/fonts.d \
 MISC/ext_button_drv.d \
 MISC/prints.d \
+MISC/timer_counter.d \
 OLED/menu.d \
 OLED/oled_drv.d \
 SPI/SPIdrv.d \
@@ -115,6 +119,7 @@ MCP2515/MCP2515drv.d \
 MISC/fonts.d \
 MISC/ext_button_drv.d \
 MISC/prints.d \
+MISC/timer_counter.d \
 OLED/menu.d \
 OLED/oled_drv.d \
 SPI/SPIdrv.d \
@@ -178,6 +183,13 @@ MISC/ext_button_drv.o: ../MISC/ext_button_drv.c
 	
 
 MISC/prints.o: ../MISC/prints.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+MISC/timer_counter.o: ../MISC/timer_counter.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

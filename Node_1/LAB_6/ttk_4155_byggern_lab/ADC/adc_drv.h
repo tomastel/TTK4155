@@ -18,7 +18,8 @@
 #define JOYSTICK_X_CHANNEL 3
 #define ADC_EXT_CLK_SGN_PIN PD5
 #define ADC_MAX 255
-#define ADC_JOYSTICK_THRESHOLD 70 //Changed from 3
+#define ADC_JOYSTICK_DIR_THRESHOLD 70 //Changed from 3
+#define ADC_JOYSTICK_POS_THRESHOLD 4
 
 typedef struct {
 	int8_t X;

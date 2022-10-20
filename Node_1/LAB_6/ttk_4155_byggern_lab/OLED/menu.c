@@ -1,11 +1,9 @@
+
 #include "menu.h"
 
 static uint8_t num_options_in_menu;
 static uint8_t arrow_on_line;
-
-
 static menu_struct *current_menu;
-
 
 menu_struct Sub_menu_2 = {
 	.title = "Sub Menu 2",
@@ -34,7 +32,6 @@ menu_struct main_menu = {
 	.options = 2
 };
 
-
 void this_end()
 {
 	print_uart("hei \r\n");
@@ -53,8 +50,7 @@ void print_menu_page()
 	oled_goto_column(40);
 	print_oled(menu_page_title);
 	
-	for(uint8_t i = 0; i < current_menu->options; i++)
-	{
+	for(uint8_t i = 0; i < current_menu->options; i++){
 		char *option = current_menu->submenu[i].option_name;
 		oled_goto_line(i+1);
 		oled_goto_column(8);
@@ -64,7 +60,6 @@ void print_menu_page()
 	oled_pos(FIRST_LINE_MENU, 0);
 	print_arrow();
 	arrow_on_line = FIRST_LINE_MENU;
-	
 }
 
 void update_menu(void *menu_page)
@@ -80,11 +75,10 @@ void menu_navigate()
 	static dir_t last_dir;
 	dir_t dir = dir_read(pos_read());
 	
-	
-	if(dir == DOWN && dir != last_dir){
+	if(dir == DOWN && dir != last_dir) {
 		move_arrow_down();
 	}
-	else if(dir == UP && dir != last_dir){
+	else if(dir == UP && dir != last_dir) {
 		move_arrow_up();
 	}
 	last_dir = dir;
@@ -106,8 +100,7 @@ void clear_arrow()
 
 void move_arrow_up()
 {
-	if(arrow_on_line > FIRST_LINE_MENU && arrow_on_line <= num_options_in_menu)
-	{
+	if(arrow_on_line > FIRST_LINE_MENU && arrow_on_line <= num_options_in_menu) {
 		oled_goto_line(arrow_on_line);
 		oled_goto_column(0);
 		clear_arrow();
@@ -120,8 +113,7 @@ void move_arrow_up()
 
 void move_arrow_down()
 {
-	if(arrow_on_line >= FIRST_LINE_MENU && arrow_on_line < num_options_in_menu)
-	{
+	if(arrow_on_line >= FIRST_LINE_MENU && arrow_on_line < num_options_in_menu) {
 		oled_goto_line(arrow_on_line);
 		oled_goto_column(0);
 		clear_arrow();
