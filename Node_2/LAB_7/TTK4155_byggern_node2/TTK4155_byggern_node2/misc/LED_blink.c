@@ -5,7 +5,6 @@
  *  Author: tomasnt
  */ 
 
-
 #include "LED_blink.h"
 
 void LEDs_init(){
@@ -20,7 +19,8 @@ void LEDs_init(){
 	PIOA->PIO_PUDR = PIO_PA20;
 	
 	// Set start value of SysTick reload register
-	SysTick->LOAD = 0x7FFFFF;
+	// Resets every 20ms, (MCLK/prescaler)*percentage of a second.
+	SysTick->LOAD = 0x33450;
 	SysTick->CTRL = 0x1;
 }
 

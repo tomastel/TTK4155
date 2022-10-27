@@ -6,11 +6,20 @@
  */
 #include "ext_button_drv.h"
 #include "prints.h"
+#include "../CAN/CANdrv.h"
 
+CAN_msg CAN_msg_btn = {
+	.ID = 2,
+	.length = 2,
+	.message = {0 ,0}
+};
 
 ISR (INT1_vect)
 {
 	print_uart("Right button pressed\r\n");
+	CAN_msg_btn.message[0] = 1;
+	CAN_msg_btn.message[1] = 1;
+	CAN_send(CAN_msg_btn);
 }
 
 ISR (INT2_vect)

@@ -17,7 +17,13 @@
 
 #include "can_controller.h"
 
-#define DEBUG_INTERRUPT 1
+#define DEBUG_INTERRUPT 0
+#define DEBUG_INTERRUPT_2 1
+
+
+#define CAN_MESSAGE_ARRAY_SIZE 2
+
+CAN_MESSAGE can_messages[CAN_MESSAGE_ARRAY_SIZE];
 
 /**
  * \brief CAN0 Interrupt handler for RX, TX and bus error interrupts
@@ -49,7 +55,19 @@ void CAN0_Handler( void )
 		{
 			printf("CAN0 message arrived in non-used mailbox\n\r");
 		}
-
+		uint8_t id = message.id;
+		can_messages[id -1].id = message.id;
+		can_messages[id -1].data_length = message.data_length;
+		if(DEBUG_INTERRUPT_2) {
+			printf("ID: %d\n\r", id);
+			printf("Length: %d \n\r", message.data_length);
+		}
+		for (int i = 0; i < can_messages[id -1].data_length; i++) {
+			can_messages[id -1].data[i] = message.data[i];
+			int8_t data = can_messages[id -1].data[i];
+			if(DEBUG_INTERRUPT_2)printf("data %d: %d\n\r",i, data);
+		}
+		
 		if(DEBUG_INTERRUPT)printf("message id: %d\n\r", message.id);
 		if(DEBUG_INTERRUPT)printf("message data length: %d\n\r", message.data_length);
 		for (int i = 0; i < message.data_length; i++)
@@ -79,7 +97,17 @@ void CAN0_Handler( void )
 		if(DEBUG_INTERRUPT)printf("CAN0 timer overflow\n\r");
 
 	}
-	printf("\n\r");
+	if(DEBUG_INTERRUPT)printf("\n\r");
 	NVIC_ClearPendingIRQ(ID_CAN0);
 	//sei();*/
+}
+
+CAN_MESSAGE can_get_messages(uint8_t msg_nr)
+{
+	return can_messages[msg_nr];
+}
+
+void reset_btn_value()
+{
+	can_messages[1].data[0] = 0;
 }

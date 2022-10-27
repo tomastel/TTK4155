@@ -27,37 +27,29 @@ void init() {
 	menu_init();
 	CAN_init();
 	timer_init();
+	print_uart("Program initialized\r\n");
 }
 
 ISR (TIMER3_COMPA_vect) {
-	if(adc_drv_joystick_update()){
+	if(adc_drv_joystick_update() || right_slider_update()){
 		fun_stick_t my_fun_stick = adc_drv_fun_stick_get();
+		uint8_t right_slider_val = right_slider_get();
 		CAN_msg fun_stick_CAN_msg = {
-			.ID = 69,
+			.ID = 1,
 			.length = 3,
-			.message = {my_fun_stick.position.X, my_fun_stick.position.Y, my_fun_stick.direction}
+			.message = {my_fun_stick.position.X, right_slider_val, my_fun_stick.direction}
 		};
 		CAN_send(fun_stick_CAN_msg);
 		print_uart("Joystick sent\n\r");
+		//printf("X position: %d , right slider value: %d", my_fun_stick.position.X, right_slider_val);
 	}
 }
 
 int main(void)
 {
-	//fun_stick_t my_fun_stick;
-	uint8_t slider1, slider2;
-
 	init();
-	print_uart("Program initialized\r\n");
-	
-	CAN_msg CAN_test = {
-		.ID = 818,
-		.length = 8,
-		.message = {77, 101, 108, 100, 105, 110, 103, 33}
-	};
 	
     while (1){
-		//_delay_ms(100);
 		menu_navigate();
     }
 	

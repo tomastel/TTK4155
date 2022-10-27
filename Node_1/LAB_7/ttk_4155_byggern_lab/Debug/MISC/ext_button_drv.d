@@ -25,7 +25,15 @@ MISC/ext_button_drv.d MISC/ext_button_drv.o: ../MISC/ext_button_drv.c \
  ../MISC/../UART_drv/../MISC/common_includes.h ../MISC/../OLED/oled_drv.h \
  ../MISC/../OLED/../MISC/common_includes.h \
  ../MISC/../OLED/../MISC/fonts.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
+ ../MISC/../CAN/CANdrv.h ../MISC/../CAN/../MISC/common_includes.h \
+ ../MISC/../CAN/../MCP2515/MCP2515drv.h \
+ ../MISC/../CAN/../MCP2515/../MISC/common_includes.h \
+ ../MISC/../CAN/../MCP2515/MCP2515_registers.h \
+ ../MISC/../CAN/../MCP2515/../SPI/SPIdrv.h \
+ ../MISC/../CAN/../MCP2515/../SPI/../MISC/common_includes.h \
+ ../MISC/../CAN/../MCP2515/../MISC/prints.h \
+ ../MISC/../CAN/../MISC/prints.h
 
 ../MISC/ext_button_drv.h:
 
@@ -88,3 +96,21 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 ../MISC/../OLED/../MISC/fonts.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h:
+
+../MISC/../CAN/CANdrv.h:
+
+../MISC/../CAN/../MISC/common_includes.h:
+
+../MISC/../CAN/../MCP2515/MCP2515drv.h:
+
+../MISC/../CAN/../MCP2515/../MISC/common_includes.h:
+
+../MISC/../CAN/../MCP2515/MCP2515_registers.h:
+
+../MISC/../CAN/../MCP2515/../SPI/SPIdrv.h:
+
+../MISC/../CAN/../MCP2515/../SPI/../MISC/common_includes.h:
+
+../MISC/../CAN/../MCP2515/../MISC/prints.h:
+
+../MISC/../CAN/../MISC/prints.h:

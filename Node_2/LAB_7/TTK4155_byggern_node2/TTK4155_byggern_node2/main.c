@@ -22,28 +22,40 @@ void inits(){
 	can_init_def_tx_rx_mb(CAN_BAUDRATE_REG);
 	PWM_init();
 	WDT->WDT_MR = WDT_MR_WDDIS;
+	printf("Program initialized\n\r");
+}
+
+void func()
+{
+	printf("Running test func\n\r");
+	reset_btn_value();
+	
 }
 
 int main(void)
 {
-	//Set PMC timer, this has to be checked
-	PMC->PMC_WPMR = PMC_WPMR_WPKEY_PASSWD;
-	PMC->PMC_WPMR = 0;
-	PMC->PMC_PCER0 = 0xFFFF;
-	PMC->PMC_PCER1 = 0xFFFF;
+
 	inits();
-	printf("Program initialized\n\r");
-	CAN_MESSAGE CAN_test = {
-		.id = 818,
-		.data_length = 8,
-		.data = {77, 101, 108, 100, 105, 110, 103, 33}
-	};
-	uint32_t my_reg = PWM->PWM_SR;
-	printf("this reg: %d \r\n", my_reg);
-	can_send(&CAN_test, 0);
+	CAN_MESSAGE btn_message, ADC_message;
+	PWM_set_period_percentage(0);
 	
     while (1) 
     {
-		LEDs_blink();
+		uint32_t sys_tick_CTRL_reg = SysTick->CTRL;
+		bool time_flag = (sys_tick_CTRL_reg & 0x10000);
+		
+		if(time_flag){
+			btn_message = can_get_messages(1);
+			ADC_message = can_get_messages(0);
+			int8_t x_val = ADC_message.data[0];
+			//printf("%d, %d, %d \n\r\n", x_val, ADC_message.data[1], ADC_message.data[2]);
+			if(btn_message.data[0] == 1){
+				func();
+			}
+			int8_t value = ADC_message.data[0];
+			printf("value: %d\r\n", value);
+			PWM_set_period_percentage(value);
+			SysTick->VAL = 0;
+		}
     }
 }

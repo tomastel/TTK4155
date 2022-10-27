@@ -20,6 +20,7 @@
 #define ADC_MAX 255
 #define ADC_JOYSTICK_DIR_THRESHOLD 70 //Changed from 3
 #define ADC_JOYSTICK_POS_THRESHOLD 4
+#define ADC_SLIDER_THRESHOLD 2
 
 typedef struct {
 	int8_t X;
@@ -50,6 +51,8 @@ bool adc_drv_joystick_update();
 void adc_drv_init();
 
 uint8_t adc_read(uint8_t channel); //volatile
+
+bool right_slider_update();
 
 void adc_calibrate();
 

@@ -113,7 +113,8 @@ main.d main.o: .././main.c \
  .././misc/LED_blink.h .././misc/common_includes.h \
  .././misc/../uart_and_printf/printf.h \
  .././misc/../uart_and_printf/uart.h .././uart_and_printf/uart.h \
- .././CAN/can_controller.h .././CAN/can_interrupt.h .././PWM/PWM_drv.h
+ .././CAN/can_controller.h .././CAN/can_interrupt.h .././PWM/PWM_drv.h \
+ .././PWM/../misc/common_includes.h
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/sam.h:
 
@@ -352,3 +353,5 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/s
 .././CAN/can_interrupt.h:
 
 .././PWM/PWM_drv.h:
+
+.././PWM/../misc/common_includes.h:

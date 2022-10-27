@@ -16,7 +16,7 @@ void timer_init() {
 	TCCR3B = 0xD;
 	// Enable output compare A match interrupt
 	ETIMSK = 0x10;
-	// Compare match on 32767 (7FFF)
-	// Interrupt on: 1/(F_osc/prescaler)*Compare_match [sec]
+	// Compare match on 96 (0x1D4)
+	// Interrupt on: sek = 1/(F_osc/prescaler)*Compare_match [sec]
 	OCR3A = 0x1D4; // Interrupt every 98 ms
 }

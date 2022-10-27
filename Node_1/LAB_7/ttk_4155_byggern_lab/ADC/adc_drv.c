@@ -10,6 +10,7 @@
 uint8_t offset_x = 0;
 uint8_t offset_y = 0;
 fun_stick_t last_fun_stick;
+uint8_t last_right_slider_val;
 
 
 void adc_drv_init()
@@ -56,20 +57,6 @@ bool adc_drv_joystick_update()
 		}
 	 else return false;
 }
-
-//if ((current_fun_stick.direction != last_fun_stick.direction) ||
-//(abs(current_fun_stick.position.X - last_fun_stick.position.X) >= ADC_JOYSTICK_POS_THRESHOLD) ||
-//(abs(current_fun_stick.position.Y - last_fun_stick.position.Y) >= ADC_JOYSTICK_POS_THRESHOLD)) {
-	//last_fun_stick = current_fun_stick;
-	//return true;
-//}
-
-//if ((current_fun_stick.direction != last_fun_stick.direction) ||
-	 //(current_fun_stick.position.X != last_fun_stick.position.X) ||
-	 //(current_fun_stick.position.Y != last_fun_stick.position.Y)) {
-		 //last_fun_stick = current_fun_stick;
-		 //return true;
-	 //}
 
 uint8_t adc_read(uint8_t channel)
 {
@@ -148,4 +135,21 @@ dir_t dir_read(pos_t positions)
 uint8_t slider_read(uint8_t channel)
 {
 	return (100 * adc_read(channel) / ADC_MAX);
+}
+
+
+bool right_slider_update()
+{
+	uint8_t current_right_slider_val = slider_read(RIGHT_SLIDER_CHANNEL);
+
+	if (abs(current_right_slider_val - last_right_slider_val) > ADC_SLIDER_THRESHOLD) {
+		last_right_slider_val = current_right_slider_val;
+		return true;
+	}
+	else return false;
+}
+
+uint8_t right_slider_get()
+{
+	return last_right_slider_val;
 }
