@@ -159,6 +159,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ADC\ADC_IR.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ADC\ADC_IR.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="CAN\can_controller.c">
       <SubType>compile</SubType>
     </Compile>
@@ -192,6 +198,12 @@
     <Compile Include="misc\LED_blink.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="PID\PID.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PID\PID.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="PWM\PWM_drv.c">
       <SubType>compile</SubType>
     </Compile>
@@ -215,6 +227,8 @@
     <Folder Include="Device_Startup\" />
     <Folder Include="CAN" />
     <Folder Include="misc" />
+    <Folder Include="ADC" />
+    <Folder Include="PID" />
     <Folder Include="PWM" />
     <Folder Include="uart_and_printf" />
   </ItemGroup>

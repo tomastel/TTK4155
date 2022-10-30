@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+ADC\ADC_IR.c
+
 CAN\can_controller.c
 
 CAN\can_interrupt.c
