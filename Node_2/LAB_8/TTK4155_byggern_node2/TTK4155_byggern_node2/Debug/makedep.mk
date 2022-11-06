@@ -18,7 +18,7 @@ misc\LED_blink.c
 
 motor_box\motor.c
 
-PID\PID.c
+PID\pid.c
 
 PWM\PWM_drv.c
 

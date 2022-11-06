@@ -23,11 +23,16 @@
 #define MJ2_DO6_PIN	PIO_PC7
 #define MJ2_DO7_PIN	PIO_PC8
 
+#define DACC_MAX_VALUE 2500
+#define DACC_MIN_VALUE 1500
+#define DACC_Thing 500
+
 #define MJEX_MOTOR_SPEED_PIN PIO_PB16
 
 void motor_box_init()
 {
 	PMC->PMC_PCER1 = PMC_PCER1_PID38;
+	PMC->PMC_PCER0 = PMC_PCER0_PID13;
 	// Enabling PIOD pins for motor
 	PIOD->PIO_PER = 0x607;
 	// Enabling PIOD pins for encoder (default enabled as inputs)
@@ -42,63 +47,81 @@ void motor_box_init()
 	PIOD->PIO_OER = 0x607;
 	
 	DACC->DACC_MR = DACC_MR_USER_SEL_CHANNEL1;
-	DACC->DACC_CDR = 2500;
+	DACC->DACC_CDR = DACC_MAX_VALUE;
 	
+
 	// Set MJ1 pin !OE and !RST high
 	PIOD->PIO_SODR = MJ1_NOT_OE_PIN;
 	PIOD->PIO_SODR = MJ1_NOT_RST_PIN;
 	
+	
+	PIOD->PIO_CODR = MJ1_NOT_RST_PIN;
+	delay_ch1_micro(100);
+	PIOD->PIO_SODR = MJ1_NOT_RST_PIN;
+	
+}
+
+
+uint8_t encoder_map(int16_t raw_encoder_value)
+{
+	int8_t encoder_mapped_value = raw_encoder_value*100/1405;
+	return encoder_mapped_value;
 }
 
 int16_t encoder_read()
 {
-	int16_t encoder_value;
+	int16_t encoder_value_low = 0;
+	int16_t encoder_value_high = 0;
+	int16_t encoder_value = 0;
+	uint8_t mapped_encoder_value;
 	PIOD->PIO_CODR = MJ1_NOT_OE_PIN;
 	PIOD->PIO_CODR = MJ1_SEL_PIN;
 	
 	delay_ch1_micro(20);
 	
-	encoder_value = (MJ2_DO7_PIN << 15) |
-					(MJ2_DO6_PIN << 14) |
-					(MJ2_DO5_PIN << 13) |
-					(MJ2_DO4_PIN << 12) |
-					(MJ2_DO3_PIN << 11) |
-					(MJ2_DO2_PIN << 10) |
-					(MJ2_DO1_PIN << 9)  |
-					(MJ2_DO0_PIN << 8);
+	uint32_t PIOC_PIN_DATA = PIOC->PIO_PDSR;
+		
+	encoder_value_high =  (PIOC_PIN_DATA & (0x1FE));
 	
 	PIOD->PIO_SODR = MJ1_SEL_PIN;
 	
 	delay_ch1_micro(20);
 	
-	encoder_value = (MJ2_DO7_PIN << 7) |
-					(MJ2_DO6_PIN << 6) |
-					(MJ2_DO5_PIN << 5) |
-					(MJ2_DO4_PIN << 4) |
-					(MJ2_DO3_PIN << 3) |
-					(MJ2_DO2_PIN << 2) |
-					(MJ2_DO1_PIN << 1) |
-					(MJ2_DO0_PIN << 0);
+	uint32_t PIOC_PIN_DATA1 = PIOC->PIO_PDSR;
+
+	encoder_value_low = (PIOC_PIN_DATA1 & (0x1FE));
+	
+	printf("Data high: %d, Data low: %d\n\r", encoder_value_high, encoder_value_low);
+	
+	encoder_value = (encoder_value_high << 7) |
+					(encoder_value_low >> 1);
 	
 	PIOD->PIO_SODR = MJ1_NOT_OE_PIN;
 	
-	return encoder_value;
+	mapped_encoder_value = encoder_map(encoder_value*-1);
+	
+	return mapped_encoder_value;
 }
 
-void motor(uint8_t direction_value)
+void motor(int8_t direction_value)
 {
 	bool motor_dir, motor_on;
+	int16_t DACC_value = abs(direction_value*DACC_Thing/100 + DACC_MIN_VALUE);
+	
+	printf("DACC_value: %d\n\r", DACC_value);
 
-	if (direction_value < 30) {
+	if (direction_value < -5) {
 		motor_on = true;
 		motor_dir = false;
-	} else if (direction_value > 70) {
+	} else if (direction_value > 5) {
 		motor_on = true;
 		motor_dir = true;
 	} else {
 		motor_on = false;
 	}
-	
+
+	DACC->DACC_CDR = DACC_value;
+
 	if (motor_on) {
 		if (motor_dir) {
 			PIOD->PIO_SODR = MJ1_DIR_PIN;
@@ -109,5 +132,6 @@ void motor(uint8_t direction_value)
 	} else {
 		PIOD->PIO_CODR = MJ1_EN_PIN;
 	}
+	
 }
 

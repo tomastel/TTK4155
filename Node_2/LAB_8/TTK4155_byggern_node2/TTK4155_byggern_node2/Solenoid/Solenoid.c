@@ -15,13 +15,14 @@ void solenoid_init()
 	PIOB->PIO_OER = PIO_PB26;
 	// Disable pull-up
 	PIOB->PIO_PUDR = PIO_PB26;
-	
-	PIOB->PIO_CODR = PIO_PB26;
+	// Setting Pin Low
+	PIOB->PIO_SODR = PIO_PB26;
 }
 
-void doink()
+void solenoid_impulse()
 {
-	PIOB->PIO_SODR = PIO_PB26;
-	delay_ch1_micro(10);
+	//Setting and resetting pin for Solenoid
 	PIOB->PIO_CODR = PIO_PB26;
+	delay_ch1_micro(50000);
+	PIOB->PIO_SODR = PIO_PB26;
 }

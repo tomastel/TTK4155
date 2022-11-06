@@ -204,10 +204,10 @@
     <Compile Include="motor_box\motor.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PID\PID.c">
+    <Compile Include="PID\pid.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PID\PID.h">
+    <Compile Include="PID\pid.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="PWM\PWM_drv.c">

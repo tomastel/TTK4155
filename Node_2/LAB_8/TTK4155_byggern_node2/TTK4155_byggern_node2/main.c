@@ -16,19 +16,27 @@
 #include "motor_box/motor.h"
 #include "timer/timer_counter.h"
 #include "Solenoid/Solenoid.h"
+#include "PID/PID.h"
+
+// to do: 
+//			Fix encoder
+//			Fix PID
 
 #define CAN_BAUDRATE_REG 0x290165
 
+pidData_t pid_instance_1;
+
 void inits(){
 	SystemInit();
+	timer_counter_init();
 	LEDs_init();
 	configure_uart();	
 	can_init_def_tx_rx_mb(CAN_BAUDRATE_REG);
 	PWM_init();
 	ADC_init();
 	motor_box_init();
-	timer_counter_init();
 	solenoid_init();
+	pid_Init(6,3,0, &pid_instance_1);
 	WDT->WDT_MR = WDT_MR_WDDIS;
 	
 	printf("Program initialized\n\r");
@@ -36,6 +44,7 @@ void inits(){
 
 void func()
 {
+	solenoid_impulse();
 	printf("Running test func\n\r");
 	reset_btn_value();
 	
@@ -43,26 +52,27 @@ void func()
 
 void TC0_Handler ( void )
 {
-	printf("TC0_ch0 Handler says DOINK!\n\r");
+	//CAN_MESSAGE ADC_DATA = can_get_messages(0);
+	//printf("TC0_ch0 Handler says DOINK!\n\r");
+	//pid_Controller(ADC_DATA.data[1],)
+	int16_t encoder_val = encoder_read();
+	
+	printf("Encoder value: %d\n\r", encoder_val);
+	int16_t value = pid_Controller(30, encoder_val, &pid_instance_1);
+	printf("output: %d\n\r",value);
+	motor(value);
 	uint32_t tc_sr = TC0->TC_CHANNEL[0].TC_SR;
 }
-
 
 int main(void)
 {
 	inits();
+	
 	CAN_MESSAGE btn_message, ADC_message;
 	PWM_set_period_percentage(0);
-	uint8_t hei = 0;
-	
     while (1)
     {
-		//delay_ch1_micro(1000000);
-		//doink();
-		//PIOB->PIO_SODR = PIO_PB26;
-		//printf("%d ", hei);
-		//printf("MmyDOINK!\n\r");
-		//hei++;
+		
 			
 		uint32_t sys_tick_CTRL_reg = SysTick->CTRL;
 		bool time_flag = (sys_tick_CTRL_reg & 0x10000);
@@ -82,7 +92,7 @@ int main(void)
 			uint32_t val = ADC->ADC_CDR[7];
 			uint32_t last_converted = ADC->ADC_LCDR;
 			uint32_t ADC_status_reg = (ADC->ADC_CHSR & ADC_CHSR_CH15) >> 15;
-	
+			
 			//printf("Value: %d , last: %d\r\n", val, last_converted);
 			
 			if(IR_check_for_goal()){
@@ -90,7 +100,7 @@ int main(void)
 			}
 			
 			uint8_t slider_val = ADC_message.data[1];
-			motor(slider_val);
+			//motor(slider_val);
 			
 			
 			SysTick->VAL = 0;

@@ -55,7 +55,7 @@ C_SRCS +=  \
 ../main.c \
 ../misc/LED_blink.c \
 ../motor_box/motor.c \
-../PID/PID.c \
+../PID/pid.c \
 ../PWM/PWM_drv.c \
 ../Solenoid/Solenoid.c \
 ../timer/timer_counter.c \
@@ -78,7 +78,7 @@ Device_Startup/system_sam3xa.o \
 main.o \
 misc/LED_blink.o \
 motor_box/motor.o \
-PID/PID.o \
+PID/pid.o \
 PWM/PWM_drv.o \
 Solenoid/Solenoid.o \
 timer/timer_counter.o \
@@ -94,7 +94,7 @@ Device_Startup/system_sam3xa.o \
 main.o \
 misc/LED_blink.o \
 motor_box/motor.o \
-PID/PID.o \
+PID/pid.o \
 PWM/PWM_drv.o \
 Solenoid/Solenoid.o \
 timer/timer_counter.o \
@@ -110,7 +110,7 @@ Device_Startup/system_sam3xa.d \
 main.d \
 misc/LED_blink.d \
 motor_box/motor.d \
-PID/PID.d \
+PID/pid.d \
 PWM/PWM_drv.d \
 Solenoid/Solenoid.d \
 timer/timer_counter.d \
@@ -126,7 +126,7 @@ Device_Startup/system_sam3xa.d \
 main.d \
 misc/LED_blink.d \
 motor_box/motor.d \
-PID/PID.d \
+PID/pid.d \
 PWM/PWM_drv.d \
 Solenoid/Solenoid.d \
 timer/timer_counter.d \
@@ -207,7 +207,7 @@ motor_box/motor.o: ../motor_box/motor.c
 	@echo Finished building: $<
 	
 
-PID/PID.o: ../PID/PID.c
+PID/pid.o: ../PID/pid.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Og -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

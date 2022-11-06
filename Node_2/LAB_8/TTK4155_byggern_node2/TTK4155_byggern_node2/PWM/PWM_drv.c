@@ -13,10 +13,14 @@
 
 #define PWM_WPCR_KEY 0x50574D
 #define PIO_WPMR_KEY 0x50494F
-#define PWM_CHN_5_MIN_VAL 0x2F6D
-#define PWM_CHN_5_RANGE 0x189
-#define PWM_CHN_5_INIT_VAL 0x2F6D
-#define PWM_CHN_5_PERIOD_VAL 0x3345
+
+// 0 % dutycyle of period = dutycycle
+// 10 % dutycle of period = dutycyle - 10 %
+ 
+#define PWM_CHN_5_MID_VAL 0x3D8 // 0x2F6D
+#define PWM_CHN_5_RANGE 0x148 // 0x189
+#define PWM_CHN_5_INIT_VAL 0x3D8  //0x2F6D
+#define PWM_CHN_5_PERIOD_VAL 0x7B1  //0x3345
 
 void PWM_init()
 {
@@ -49,8 +53,9 @@ uint32_t PWM_set_period_percentage(int16_t value)
 	} else if (value < -100) {
 		value = -100;
 	}
-		
-	uint32_t pwm_value =  PWM_CHN_5_MIN_VAL + (value * PWM_CHN_5_RANGE)/100;
+	
+	//PWM signal is reverse
+	uint32_t pwm_value =  PWM_CHN_5_MID_VAL + (value * PWM_CHN_5_RANGE)/100;
 	
 	PWM->PWM_CH_NUM[5].PWM_CDTYUPD = (pwm_value);
 	return pwm_value;

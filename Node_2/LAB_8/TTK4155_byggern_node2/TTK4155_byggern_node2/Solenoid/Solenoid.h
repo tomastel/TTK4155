@@ -12,6 +12,6 @@
 #include "../misc/common_includes.h"
 
 void solenoid_init();
-void doink();
+void solenoid_impulse();
 
 #endif /* SOLENOID_H_ */

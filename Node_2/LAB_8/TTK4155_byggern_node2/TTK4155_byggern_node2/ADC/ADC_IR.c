@@ -9,7 +9,7 @@
 
 
 
-#define IR_THRESHOLD 500
+#define IR_THRESHOLD 2000 //500
 
 bool game_on = false;
 uint32_t IR_last_value, IR_current_value;

@@ -115,7 +115,7 @@ main.d main.o: .././main.c .././misc/common_includes.h \
  .././ADC/../misc/common_includes.h .././motor_box/motor.h \
  .././motor_box/../misc/common_includes.h .././timer/timer_counter.h \
  .././timer/../misc/common_includes.h .././Solenoid/Solenoid.h \
- .././Solenoid/../misc/common_includes.h
+ .././Solenoid/../misc/common_includes.h .././PID/PID.h
 
 .././misc/common_includes.h:
 
@@ -368,3 +368,5 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/p
 .././Solenoid/Solenoid.h:
 
 .././Solenoid/../misc/common_includes.h:
+
+.././PID/PID.h:
