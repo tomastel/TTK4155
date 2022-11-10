@@ -13,8 +13,6 @@
 
 void motor_box_init();
 int16_t encoder_read();
-void motor(int8_t direction_value);
-
-
+void motor(int16_t direction_value);
 
 #endif /* ENCODER_H_ */

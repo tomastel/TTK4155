@@ -31,7 +31,11 @@ CAN/CANdrv.d CAN/CANdrv.o: ../CAN/CANdrv.c ../CAN/CANdrv.h \
  ../CAN/../MCP2515/../MISC/../OLED/../MISC/common_includes.h \
  ../CAN/../MCP2515/../MISC/../OLED/../MISC/fonts.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
- ../CAN/../MISC/prints.h
+ ../CAN/../MISC/prints.h ../CAN/../OLED/menu.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
+ ../CAN/../OLED/../MISC/common_includes.h ../CAN/../OLED/oled_drv.h \
+ ../CAN/../OLED/../ADC/adc_drv.h \
+ ../CAN/../OLED/../ADC/../MISC/common_includes.h
 
 ../CAN/CANdrv.h:
 
@@ -104,3 +108,15 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h:
 
 ../CAN/../MISC/prints.h:
+
+../CAN/../OLED/menu.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
+
+../CAN/../OLED/../MISC/common_includes.h:
+
+../CAN/../OLED/oled_drv.h:
+
+../CAN/../OLED/../ADC/adc_drv.h:
+
+../CAN/../OLED/../ADC/../MISC/common_includes.h:

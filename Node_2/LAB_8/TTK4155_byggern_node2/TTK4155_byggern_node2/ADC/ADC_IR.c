@@ -6,28 +6,27 @@
  */ 
 
 #include "ADC_IR.h"
+#include "../timer/timer_counter.h"
 
+#define IR_THRESHOLD 1500 //2000
 
-
-#define IR_THRESHOLD 2000 //500
-
-bool game_on = false;
 uint32_t IR_last_value, IR_current_value;
 uint8_t goal_counter = 0;
+bool IR_activated = false;
 
-int ADC_init()
+void reset_IR()
+{
+	IR_activated = false;
+}
+
+void ADC_init()
 {
 	// Enable ADC controller MCK in PMC (ADC config doesn't require clock to be enabled
 	PMC->PMC_PCER1 |= PMC_PCER1_PID37;
-	// 
 	// Activate ADC channel (temperature sensor)
 	ADC->ADC_CHER |= ADC_CHER_CH7;
-	// Enable ADC conversion in ADC control register
-	//ADC->ADC_CR |= ADC_CR_START;
 	// Enable ADC freerun mode (never waits for trigger to convert)
 	ADC->ADC_MR |= ADC_MR_FREERUN;
-	
-	return 0;
 }
 
 uint32_t ADC_read_IR()
@@ -36,11 +35,11 @@ uint32_t ADC_read_IR()
 }
 
 bool IR_check_for_goal()
-{
+{	
 	IR_current_value = ADC_read_IR();
-	if((IR_current_value < IR_THRESHOLD) && IR_last_value >= IR_THRESHOLD) {
+	if((IR_current_value < IR_THRESHOLD) && (IR_last_value >= IR_THRESHOLD) && !IR_activated) {
 		IR_last_value = IR_current_value;
-		goal_counter++;
+		IR_activated = true;
 		return true;
 	} else {
 		IR_last_value = IR_current_value;
@@ -48,7 +47,3 @@ bool IR_check_for_goal()
 	}
 }
 
-void IR_reset_goals()
-{
-	goal_counter = 0;
-}

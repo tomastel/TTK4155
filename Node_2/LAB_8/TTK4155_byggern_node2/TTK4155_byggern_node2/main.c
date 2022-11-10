@@ -5,7 +5,6 @@
  * Author : tomasnt
  */ 
 
-//#include "sam.h"
 #include "misc/common_includes.h"
 #include "misc/LED_blink.h"
 #include "uart_and_printf/uart.h"
@@ -18,94 +17,91 @@
 #include "Solenoid/Solenoid.h"
 #include "PID/PID.h"
 
-// to do: 
-//			Fix encoder
-//			Fix PID
+#define PID_DEBUG 0
 
 #define CAN_BAUDRATE_REG 0x290165
+#define ENCODER_MAX_VAL 1405
+#define Kp 64
+#define Ti 0
+#define Td 64
+
+CAN_MESSAGE goal_message = {
+	.id = 3,
+	.data_length = 1,
+	.data = {1}
+	};
 
 pidData_t pid_instance_1;
+bool time_flag;
 
 void inits(){
 	SystemInit();
 	timer_counter_init();
-	LEDs_init();
 	configure_uart();	
 	can_init_def_tx_rx_mb(CAN_BAUDRATE_REG);
 	PWM_init();
 	ADC_init();
 	motor_box_init();
 	solenoid_init();
-	pid_Init(6,3,0, &pid_instance_1);
+	pid_Init(Kp, Ti, Td, &pid_instance_1);
 	WDT->WDT_MR = WDT_MR_WDDIS;
-	
+	timer_ch0_start();
 	printf("Program initialized\n\r");
 }
 
-void func()
-{
-	solenoid_impulse();
-	printf("Running test func\n\r");
-	reset_btn_value();
-	
-}
 
-void TC0_Handler ( void )
+void TC0_Handler (void)
 {
-	//CAN_MESSAGE ADC_DATA = can_get_messages(0);
-	//printf("TC0_ch0 Handler says DOINK!\n\r");
-	//pid_Controller(ADC_DATA.data[1],)
-	int16_t encoder_val = encoder_read();
-	
-	printf("Encoder value: %d\n\r", encoder_val);
-	int16_t value = pid_Controller(30, encoder_val, &pid_instance_1);
-	printf("output: %d\n\r",value);
-	motor(value);
-	uint32_t tc_sr = TC0->TC_CHANNEL[0].TC_SR;
+	time_flag = true;	
+	uint32_t tc_sr0 = TC0->TC_CHANNEL[0].TC_SR;
 }
 
 int main(void)
 {
 	inits();
 	
-	CAN_MESSAGE btn_message, ADC_message;
+	CAN_MESSAGE btn_message, ADC_message, start_game_message;
+	uint8_t start_game_bit;
+	int8_t x_val, servo_value;
+	uint16_t slider_val_mapped;
+	int16_t encoder_val, pid_output;
+	
 	PWM_set_period_percentage(0);
+	
     while (1)
     {
-		
+		start_game_message = can_get_messages(2);
+		start_game_bit = start_game_message.data[0];
+		if(start_game_bit) {
+			if(time_flag){
+				ADC_message = can_get_messages(0);
+				btn_message = can_get_messages(1);
+	
+				x_val = ADC_message.data[0];
+				if(btn_message.data[0] == 1){
+					solenoid_impulse();
+					reset_btn_value();
+					reset_IR();	
+				}
 			
-		uint32_t sys_tick_CTRL_reg = SysTick->CTRL;
-		bool time_flag = (sys_tick_CTRL_reg & 0x10000);
-		
-		if(time_flag){
-			btn_message = can_get_messages(1);
-			ADC_message = can_get_messages(0);
-			int8_t x_val = ADC_message.data[0];
-			//printf("%d, %d, %d \n\r\n", x_val, ADC_message.data[1], ADC_message.data[2]);
-			if(btn_message.data[0] == 1){
-				func();
+				if (IR_check_for_goal()) {
+					can_send(&goal_message, 0);
+					//printf("SIIIU\n\r");
+				}
+			
+				servo_value = ADC_message.data[0];
+				PWM_set_period_percentage(servo_value);
+			
+				slider_val_mapped = ADC_message.data[1]*ENCODER_MAX_VAL/100;
+				encoder_val = encoder_read();
+				pid_output = pid_Controller(slider_val_mapped, encoder_val, &pid_instance_1);
+	
+				motor(pid_output);
+				
+				if(PID_DEBUG) printf("Encoder value: %d\n\r PID output: %d\n\r", encoder_val, pid_output);
+
+				time_flag = false;
 			}
-			int8_t value = ADC_message.data[0];
-			//printf("value: %d\r\n", value);
-			PWM_set_period_percentage(value);
-			
-			uint32_t val = ADC->ADC_CDR[7];
-			uint32_t last_converted = ADC->ADC_LCDR;
-			uint32_t ADC_status_reg = (ADC->ADC_CHSR & ADC_CHSR_CH15) >> 15;
-			
-			//printf("Value: %d , last: %d\r\n", val, last_converted);
-			
-			if(IR_check_for_goal()){
-				printf("SIIUUUUUUU\n\r");
-			}
-			
-			uint8_t slider_val = ADC_message.data[1];
-			//motor(slider_val);
-			
-			
-			SysTick->VAL = 0;
 		}
-		
-		
-    }
+	}
 }

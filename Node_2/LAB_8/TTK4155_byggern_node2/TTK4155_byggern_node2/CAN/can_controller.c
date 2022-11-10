@@ -51,14 +51,12 @@ uint8_t can_init(uint32_t can_br, uint8_t num_tx_mb, uint8_t num_rx_mb)
 		return 1; //Too many mailboxes is configured
 	}
 
-
 	uint32_t ul_status; 
 	
 	//Disable can
 	CAN0->CAN_MR &= ~CAN_MR_CANEN; 
 	//Clear status register on read
 	ul_status = CAN0->CAN_SR; 
-	
 	
 	// Disable interrupts on CANH and CANL pins
 	PIOA->PIO_IDR = PIO_PA8A_URXD | PIO_PA9A_UTXD;
@@ -153,7 +151,6 @@ uint8_t can_send(CAN_MESSAGE* can_msg, uint8_t tx_mb_id)
 	{
 		return 1;
 	}
-	
 }
 
 /**
@@ -205,4 +202,3 @@ uint8_t can_receive(CAN_MESSAGE* can_msg, uint8_t rx_mb_id)
 		return 1;
 	}
 }
-

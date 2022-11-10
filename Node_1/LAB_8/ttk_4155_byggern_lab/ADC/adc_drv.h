@@ -9,7 +9,6 @@
 #ifndef _ADC_DRV_H_
 #define _ADC_DRV_H_
 
-
 #include "../MISC/common_includes.h"
 
 #define LEFT_SLIDER_CHANNEL 0
@@ -45,22 +44,13 @@ typedef struct {
 }fun_stick_t;
 
 fun_stick_t adc_drv_fun_stick_get();
-
 bool adc_drv_joystick_update();
-
 void adc_drv_init();
-
 uint8_t adc_read(uint8_t channel); //volatile
-
 bool right_slider_update();
-
 void adc_calibrate();
-
 pos_t pos_read();
-
 dir_t dir_read(pos_t positions);
-
 int8_t adc_conv_js_val(uint8_t raw_value, uint8_t offset_value);
-
 
 #endif /* INCFILE1_H_ */

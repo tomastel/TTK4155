@@ -1,45 +1,83 @@
 
 #include "menu.h"
+#include "../CAN/CANdrv.h"
 
 static uint8_t num_options_in_menu;
 static uint8_t arrow_on_line;
 static menu_struct *current_menu;
+uint8_t goal_limit = 5;
+uint8_t score = 0;
+
+CAN_msg CAN_msg_start_game = {
+	.ID = 3,
+	.length = 1,
+	.message = {0}
+};
 
 menu_struct Sub_menu_2 = {
-	.title = "Sub Menu 2",
+	.title = "OPTIONS",
 	.submenu = {
-		{ .option_name = "Action 1", .callback = &that_end },
+		{ .option_name = "Increment 1", .callback = &increment_goal_limit },
+		{ .option_name = "Decrement 1", .callback = &decrement_goal_limit },
 		{ .option_name = "Back", .callback = &update_menu }
 	},
-	.options = 2
+	.options = 3
 };
 
 menu_struct Sub_menu_1 = {
-	.title = "Sub Menu 1",
+	.title = "IN GAME",
 	.submenu = {
-		{ .option_name = "Action 1", .callback = &this_end },
-		{ .option_name = "Back", .callback = &update_menu }
+		{ .option_name = "End game", .callback = &end_game }
 	},
-	.options = 2
+	.options = 1
 };
 
 menu_struct main_menu = {
 	.title = "Main Menu",
 	.submenu = {
-		{ .option_name = "Sub Menu 1", .callback = &update_menu},
-		{ .option_name = "Sub Menu 2", .callback = &update_menu}
+		{ .option_name = "Start game", .callback = &start_game_menu},
+		{ .option_name = "Options", .callback = &update_options}
 	},
 	.options = 2
 };
 
-void this_end()
+void increment_score()
 {
-	print_uart("hei \r\n");
+	uint8_t game_on = CAN_msg_start_game.message[0];
+	if (game_on) {
+		score ++;
+		if (score >= goal_limit) {
+			end_game();
+		} else {
+			start_game_menu(current_menu);
+		}
+			
+	}
 }
 
-void that_end()
+void end_game()
 {
-	print_uart("hallo \r\n");
+	update_menu(&main_menu);
+	CAN_msg_start_game.message[0] = 0;
+	CAN_send(CAN_msg_start_game);
+}
+
+void increment_goal_limit()
+{
+	goal_limit ++;
+	if (goal_limit > 9) {
+		goal_limit = 9;
+	}
+	update_options(current_menu);
+}
+
+void decrement_goal_limit()
+{
+	goal_limit --;
+	if (goal_limit < 1) {
+		goal_limit = 1;
+	}
+	update_options(current_menu);
 }
 
 void print_menu_page()
@@ -62,12 +100,52 @@ void print_menu_page()
 	arrow_on_line = FIRST_LINE_MENU;
 }
 
-void update_menu(void *menu_page)
+void start_game_menu (void *menu_page)
 {
 	menu_struct *temp_menu_page = menu_page;
 	current_menu = temp_menu_page;
 	num_options_in_menu = temp_menu_page->options;
 	print_menu_page();
+	
+	oled_pos(num_options_in_menu + 3, 40);
+	char *goals_scored = "Score: ";
+	print_oled(goals_scored);
+	
+	//få info fra node 2
+	char goals_limit = '0' + score;
+	oled_print(goals_limit);
+	
+	uint8_t start_game_bit = CAN_msg_start_game.message[0];
+	if (!start_game_bit) {
+		score = 0;
+		CAN_msg_start_game.message[0] = 1;
+		CAN_send(CAN_msg_start_game);
+	}
+	
+}
+
+void update_menu(void *menu_page)
+{	
+	score = 0;
+	menu_struct *temp_menu_page = menu_page;
+	current_menu = temp_menu_page;
+	num_options_in_menu = temp_menu_page->options;
+	print_menu_page();
+}
+
+void update_options(void *menu_page)
+{
+	menu_struct *temp_menu_page = menu_page;
+	current_menu = temp_menu_page;
+	num_options_in_menu = temp_menu_page->options;
+	print_menu_page();
+	
+	oled_pos(num_options_in_menu + 3, 24);
+	char *goal_options = "Goal limit: ";
+	print_oled(goal_options);
+	
+	char goals_limit = '0' + goal_limit;
+	oled_print(goals_limit);
 }
 
 void menu_navigate()
@@ -134,7 +212,7 @@ void menu_init()
 {
 	main_menu.submenu[0].callback_parameter = &Sub_menu_1;
 	main_menu.submenu[1].callback_parameter = &Sub_menu_2;
-	Sub_menu_1.submenu[1].callback_parameter = &main_menu;
-	Sub_menu_2.submenu[1].callback_parameter = &main_menu;
+	Sub_menu_1.submenu[0].callback_parameter = &main_menu;
+	Sub_menu_2.submenu[2].callback_parameter = &main_menu;
 	update_menu(&main_menu);
 }

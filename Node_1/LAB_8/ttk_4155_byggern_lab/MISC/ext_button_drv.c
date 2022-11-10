@@ -10,15 +10,14 @@
 
 CAN_msg CAN_msg_btn = {
 	.ID = 2,
-	.length = 2,
-	.message = {0 ,0}
+	.length = 1,
+	.message = {0}
 };
 
 ISR (INT1_vect)
 {
 	print_uart("Right button pressed\r\n");
 	CAN_msg_btn.message[0] = 1;
-	CAN_msg_btn.message[1] = 1;
 	CAN_send(CAN_msg_btn);
 }
 
@@ -26,9 +25,7 @@ ISR (INT2_vect)
 {
 	print_uart("Joystick button pressed\r\n");
 	enter();
-	
 }
-
 
 void ext_button_drv_init(void)
 {
@@ -47,7 +44,6 @@ void ext_button_drv_init(void)
 	clear_bit(EMCUCR, ISC2);
 	set_bit(GIFR, INTF2);
 	set_bit(GICR, JOYSTICK_BUTTON_ISR_REGISTER);
-	
 	// Enables global interrupts
 	sei();
 }

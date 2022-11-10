@@ -9,19 +9,15 @@
  */ 
 
 #include "can_interrupt.h"
-
 #include <stdio.h>
 #include "sam.h"
-
 #include "../uart_and_printf/printf.h"
-
 #include "can_controller.h"
 
 #define DEBUG_INTERRUPT 0
 #define DEBUG_INTERRUPT_2 0
 
-
-#define CAN_MESSAGE_ARRAY_SIZE 2
+#define CAN_MESSAGE_ARRAY_SIZE 3
 
 CAN_MESSAGE can_messages[CAN_MESSAGE_ARRAY_SIZE];
 
@@ -44,10 +40,8 @@ void CAN0_Handler( void )
 		if(can_sr & CAN_SR_MB1)  //Mailbox 1 event
 		{
 			can_receive(&message, 1);
-
 		}
 		else if(can_sr & CAN_SR_MB2) //Mailbox 2 event
-		
 		{
 			can_receive(&message, 2);
 		}

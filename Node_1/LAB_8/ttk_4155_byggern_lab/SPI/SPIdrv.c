@@ -37,6 +37,5 @@ void SPI_write(uint8_t data)
 uint8_t SPI_read()
 {
 	SPI_transmit(SPI_DUMMY_DATA);
-	
 	return SPDR;
 }

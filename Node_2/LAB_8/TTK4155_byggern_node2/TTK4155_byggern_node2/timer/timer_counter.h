@@ -12,7 +12,7 @@
 #include "../misc/common_includes.h"
 
 void timer_counter_init();
-
+void timer_ch0_start();
 void delay_ch1_micro(uint32_t microsec);
 
 #endif /* TIMER_COUNTER_H_ */

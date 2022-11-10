@@ -31,7 +31,7 @@ void init() {
 }
 
 ISR (TIMER3_COMPA_vect) {
-	if(adc_drv_joystick_update() || right_slider_update()){
+	if(adc_drv_joystick_update() || right_slider_update()) {
 		fun_stick_t my_fun_stick = adc_drv_fun_stick_get();
 		uint8_t right_slider_val = right_slider_get();
 		CAN_msg fun_stick_CAN_msg = {
@@ -40,8 +40,6 @@ ISR (TIMER3_COMPA_vect) {
 			.message = {my_fun_stick.position.X, right_slider_val, my_fun_stick.direction}
 		};
 		CAN_send(fun_stick_CAN_msg);
-		print_uart("Joystick sent\n\r");
-		//printf("X position: %d , right slider value: %d", my_fun_stick.position.X, right_slider_val);
 	}
 }
 
@@ -52,6 +50,5 @@ int main(void)
     while (1){
 		menu_navigate();
     }
-	
 	return 0;
 }

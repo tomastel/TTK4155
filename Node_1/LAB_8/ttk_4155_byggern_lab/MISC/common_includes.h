@@ -16,7 +16,6 @@
 #include <math.h>
 #include <avr/interrupt.h>
 #include <stdbool.h>
-
 #include "bit_drv.h"
 
 #endif /* COMMON_INCLUDES_H_ */

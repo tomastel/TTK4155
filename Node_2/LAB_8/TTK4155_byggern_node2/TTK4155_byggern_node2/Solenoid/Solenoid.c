@@ -21,8 +21,8 @@ void solenoid_init()
 
 void solenoid_impulse()
 {
-	//Setting and resetting pin for Solenoid
+	//Setting and resetting pin for solenoid, with an ideal delay inbetween
 	PIOB->PIO_CODR = PIO_PB26;
-	delay_ch1_micro(50000);
+	delay_ch1_micro(12000);
 	PIOB->PIO_SODR = PIO_PB26;
 }

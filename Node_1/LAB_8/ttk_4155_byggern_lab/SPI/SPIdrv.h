@@ -13,12 +13,8 @@
 #define SPI_DUMMY_DATA 0xf4
 
 void SPI_init(void);
-
 void SPI_transmit(char cData);
-
 void SPI_write(uint8_t data);
-
 uint8_t SPI_read();
-
 
 #endif /* SPIDRV_H_ */

@@ -6,8 +6,13 @@
  */ 
 
 #include "CANdrv.h"
+#include "../OLED/menu.h"
+
+#define CAN_INTERRUPT_ISR_REGISTER INT0
+#define CAN_INTERRUPT_PIN PD2
 
 static uint8_t CANINT_status;
+CAN_msg IR_Data;
 
 ISR (INT0_vect)
 {
@@ -60,7 +65,6 @@ int8_t CAN_send(CAN_msg msg)
 		print_uart("Buffer0 not available\r\n");
 		return -1;
 	}
-	
 }
 
 CAN_msg CAN_receive(uint8_t buffer)
@@ -90,6 +94,10 @@ CAN_msg CAN_receive(uint8_t buffer)
 			print_uart(&temp_msg);
 		}
 		print_uart("\r\n");
+		
+		if (rx_msg.ID == 3) {
+			increment_score();
+		}
 	}
 	return rx_msg;
 }
@@ -103,19 +111,19 @@ void CAN_interpret_status(uint8_t status)
 		CAN_receive(buffer);
 		print_uart("RX0 Full\r\n");
 	}
-	
+
 	if (status & rx_buff_1_full) {
 		buffer = 1;
 		CAN_receive(buffer);
 		print_uart("RX1 Full\r\n");
 	}
-	
+
 	if (status & tx_buff_0_busy) {
 		buffer = 0;
 		// Something is about to go down
 		print_uart("TX0 Busy\r\n");
 	}
-	
+
 	if (status & tx_buff_0_empty) {
 		buffer = 0;
 		// Something else happens

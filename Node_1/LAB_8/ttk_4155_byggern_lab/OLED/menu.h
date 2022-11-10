@@ -37,14 +37,21 @@ typedef struct
 	
 }menu_struct;
 
+void end_game();
 
-void this_end();
+void increment_score();
 
-void that_end();
+void increment_goal_limit();
+
+void decrement_goal_limit();
 
 void print_menu_page();
 
+void start_game_menu (void *menu_page);
+
 void update_menu(void *menu_page);
+
+void update_options(void *menu_page);
 
 void menu_navigate();
 

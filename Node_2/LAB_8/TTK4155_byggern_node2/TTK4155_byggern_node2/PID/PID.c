@@ -95,11 +95,11 @@ int16_t pid_Controller(int16_t setPoint, int16_t processValue, struct PID_DATA *
   pid_st->lastProcessValue = processValue;
 
   ret = (p_term + i_term + d_term) / SCALING_FACTOR;
-  if(ret > MAX_INT){
-    ret = MAX_INT;
+  if(ret > MAX_OUTPUT){
+    ret = MAX_OUTPUT;
   }
-  else if(ret < -MAX_INT){
-    ret = -MAX_INT;
+  else if(ret < -MAX_OUTPUT){
+    ret = -MAX_OUTPUT;
   }
 
   return((int16_t)ret);

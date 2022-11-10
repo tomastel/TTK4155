@@ -12,12 +12,9 @@ uint8_t offset_y = 0;
 fun_stick_t last_fun_stick;
 uint8_t last_right_slider_val;
 
-
 void adc_drv_init()
 {
-	// to do:
-	// Change TCCR1A and TCCR1B as a hex value 
-	// Change DDRD register to a more correct 8 bit value
+	// Use external clock on ADC
 	set_bit(DDRD, ADC_EXT_CLK_SGN_PIN);
 	
 	TCCR1B |= (1 << WGM13); // Choosing fast PWM
@@ -51,11 +48,12 @@ bool adc_drv_joystick_update()
 
 	if ((current_fun_stick.direction != last_fun_stick.direction) ||
 		(abs(current_fun_stick.position.X - last_fun_stick.position.X) >= ADC_JOYSTICK_POS_THRESHOLD) ||
-		(abs(current_fun_stick.position.Y - last_fun_stick.position.Y) >= ADC_JOYSTICK_POS_THRESHOLD)) {
+		(abs(current_fun_stick.position.Y - last_fun_stick.position.Y) >= ADC_JOYSTICK_POS_THRESHOLD)) 
+		{
 			last_fun_stick = current_fun_stick;
 			return true;
 		}
-	 else return false;
+	else return false;
 }
 
 uint8_t adc_read(uint8_t channel)
@@ -67,12 +65,8 @@ uint8_t adc_read(uint8_t channel)
 	adc[0] = 0;
 	//control the delay!!
 	_delay_us(30);
-	
-	//adc_ch1 = adc[0];
-	
-	for (uint16_t i = 0; i < 4; i++) {
-		adc_value[i] = adc[i];
-	}
+		
+	for (uint16_t i = 0; i < 4; i++) adc_value[i] = adc[i];
 
 	return adc_value[channel];
 }
@@ -81,13 +75,10 @@ void adc_calibrate()
 {
 	offset_x = adc_read(JOYSTICK_X_CHANNEL);
 	offset_y = adc_read(JOYSTICK_Y_CHANNEL);
-	
-	//printf("offset_x: %d, offset_y: %d\r\n", offset_x, offset_y);
 }
 
 int8_t adc_conv_js_val(uint8_t raw_value, uint8_t offset_value)
 {
-
 	if (raw_value >= offset_value) {
 		return ((raw_value - offset_value) *100 / (ADC_MAX - offset_value));
 	}
@@ -136,7 +127,6 @@ uint8_t slider_read(uint8_t channel)
 {
 	return (100 * adc_read(channel) / ADC_MAX);
 }
-
 
 bool right_slider_update()
 {

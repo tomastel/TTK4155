@@ -9,8 +9,6 @@
 #define TIMER_COUNTER_H_
 
 void timer_init();
-
 void timer_get_flag();
-
 
 #endif /* TIMER_COUNTER_H_ */

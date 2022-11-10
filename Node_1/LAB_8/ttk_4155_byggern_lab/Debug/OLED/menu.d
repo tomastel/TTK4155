@@ -22,7 +22,19 @@ OLED/menu.d OLED/menu.o: ../OLED/menu.c ../OLED/menu.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
  ../OLED/../MISC/bit_drv.h ../OLED/oled_drv.h ../OLED/../MISC/fonts.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
- ../OLED/../ADC/adc_drv.h ../OLED/../ADC/../MISC/common_includes.h
+ ../OLED/../ADC/adc_drv.h ../OLED/../ADC/../MISC/common_includes.h \
+ ../OLED/../CAN/CANdrv.h ../OLED/../CAN/../MISC/common_includes.h \
+ ../OLED/../CAN/../MCP2515/MCP2515drv.h \
+ ../OLED/../CAN/../MCP2515/../MISC/common_includes.h \
+ ../OLED/../CAN/../MCP2515/MCP2515_registers.h \
+ ../OLED/../CAN/../MCP2515/../SPI/SPIdrv.h \
+ ../OLED/../CAN/../MCP2515/../SPI/../MISC/common_includes.h \
+ ../OLED/../CAN/../MCP2515/../MISC/prints.h \
+ ../OLED/../CAN/../MCP2515/../MISC/common_includes.h \
+ ../OLED/../CAN/../MCP2515/../MISC/../UART_drv/UARTdrv.h \
+ ../OLED/../CAN/../MCP2515/../MISC/../UART_drv/../MISC/common_includes.h \
+ ../OLED/../CAN/../MCP2515/../MISC/../OLED/oled_drv.h \
+ ../OLED/../CAN/../MISC/prints.h
 
 ../OLED/menu.h:
 
@@ -79,3 +91,29 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../OLED/../ADC/adc_drv.h:
 
 ../OLED/../ADC/../MISC/common_includes.h:
+
+../OLED/../CAN/CANdrv.h:
+
+../OLED/../CAN/../MISC/common_includes.h:
+
+../OLED/../CAN/../MCP2515/MCP2515drv.h:
+
+../OLED/../CAN/../MCP2515/../MISC/common_includes.h:
+
+../OLED/../CAN/../MCP2515/MCP2515_registers.h:
+
+../OLED/../CAN/../MCP2515/../SPI/SPIdrv.h:
+
+../OLED/../CAN/../MCP2515/../SPI/../MISC/common_includes.h:
+
+../OLED/../CAN/../MCP2515/../MISC/prints.h:
+
+../OLED/../CAN/../MCP2515/../MISC/common_includes.h:
+
+../OLED/../CAN/../MCP2515/../MISC/../UART_drv/UARTdrv.h:
+
+../OLED/../CAN/../MCP2515/../MISC/../UART_drv/../MISC/common_includes.h:
+
+../OLED/../CAN/../MCP2515/../MISC/../OLED/oled_drv.h:
+
+../OLED/../CAN/../MISC/prints.h:

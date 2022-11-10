@@ -18,18 +18,11 @@
 #define MCP_BRP 0x3
 
 int8_t MCP2515_init();
-
 uint8_t MCP2515_read(uint8_t read_register);
-
 void MCP2515_write(uint8_t write_register, uint8_t data);
-
 void MCP2515_request_to_send(uint8_t buffer);
-
 void MCP2515_bit_modify(uint8_t write_register, uint8_t mask, uint8_t data);
-
 void MCP2515_reset();
-
 uint8_t MCP2515_read_status();
-
 
 #endif /* MCP2515DRV_H_ */

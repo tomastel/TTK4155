@@ -5,18 +5,13 @@
  *  Author: haavarok
  */ 
 
-//PWM->PWM_WPCR = 0x50574DFC;
-
-
 #include "PWM_drv.h"
 #include "sam3x8e.h"
-
-#define PWM_WPCR_KEY 0x50574D
-#define PIO_WPMR_KEY 0x50494F
 
 // 0 % dutycyle of period = dutycycle
 // 10 % dutycle of period = dutycyle - 10 %
  
+// Commented values are for the green ping pong board
 #define PWM_CHN_5_MID_VAL 0x3D8 // 0x2F6D
 #define PWM_CHN_5_RANGE 0x148 // 0x189
 #define PWM_CHN_5_INIT_VAL 0x3D8  //0x2F6D
@@ -26,7 +21,6 @@ void PWM_init()
 {
 	// Enabling peripheral clock for PWM
 	PMC->PMC_PCER1 |= PMC_PCER1_PID36;
-	
 	//Enable pin 19 to Peripheral
 	PIOC->PIO_PDR |= PIO_PDR_P19;
 	// Enable peripheral B for P19
@@ -46,17 +40,13 @@ void PWM_init()
 
 uint32_t PWM_set_period_percentage(int16_t value)
 {
+	if (value > 100) value = 100;
+	else if (value < -100) value = -100;
 	
-	
-	if (value > 100) {
-		value = 100;
-	} else if (value < -100) {
-		value = -100;
-	}
-	
-	//PWM signal is reverse
+	//PWM signal is reversed
 	uint32_t pwm_value =  PWM_CHN_5_MID_VAL + (value * PWM_CHN_5_RANGE)/100;
 	
+	// Update PWM value in register
 	PWM->PWM_CH_NUM[5].PWM_CDTYUPD = (pwm_value);
 	return pwm_value;
 }
