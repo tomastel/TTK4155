@@ -1,0 +1,145 @@
+/*
+ * CFile1.c
+ *
+ * Created: 15.09.2022 12:40:48
+ *  Author: khuongh
+ */ 
+
+#include "adc_drv.h"
+
+uint8_t offset_x = 0;
+uint8_t offset_y = 0;
+fun_stick_t last_fun_stick;
+uint8_t last_right_slider_val;
+
+void adc_drv_init()
+{
+	// Use external clock on ADC
+	set_bit(DDRD, ADC_EXT_CLK_SGN_PIN);
+	
+	TCCR1B |= (1 << WGM13); // Choosing fast PWM
+	TCCR1B |= (1 << WGM12);	// Choosing fast PWM
+	TCCR1A |= ( 1 << WGM11 ); //Choosing fast PWM
+	TCCR1A |= ( 1 << WGM10); // Choosing fast PWM
+	
+	TCCR1A &= ~( 1 << COM1A1); // Toggle Compare
+	TCCR1A |= ( 1 << COM1A0); // Toggle Compare
+	TCCR1A &= ~( 1 << COM1B1); // Set on Compare
+	TCCR1A &= ~( 1 << COM1B0); // Set on Compare
+		
+	TCCR1B &= ~( 1 << CS12); // Prescaler
+	TCCR1B &= ~( 1 << CS11); // Prescaler
+	TCCR1B |= ( 1 << CS10); // Prescaler
+	
+	TCCR1A &= ~(1 << FOC1A);
+	TCCR1A &= ~(1 << FOC1B);
+}
+
+fun_stick_t adc_drv_fun_stick_get()
+{
+	return last_fun_stick;
+}
+
+bool adc_drv_joystick_update()
+{
+	fun_stick_t current_fun_stick;
+	current_fun_stick.position = pos_read();
+	current_fun_stick.direction = dir_read(current_fun_stick.position);
+
+	if ((current_fun_stick.direction != last_fun_stick.direction) ||
+		(abs(current_fun_stick.position.X - last_fun_stick.position.X) >= ADC_JOYSTICK_POS_THRESHOLD) ||
+		(abs(current_fun_stick.position.Y - last_fun_stick.position.Y) >= ADC_JOYSTICK_POS_THRESHOLD)) 
+		{
+			last_fun_stick = current_fun_stick;
+			return true;
+		}
+	else return false;
+}
+
+uint8_t adc_read(uint8_t channel)
+{
+	volatile uint8_t adc_value[4] = { 0 };
+	volatile char *adc = (char *) 0x1400;
+	
+	//Writing to ADC register to start getting adc value
+	adc[0] = 0;
+	//control the delay!!
+	_delay_us(30);
+		
+	for (uint16_t i = 0; i < 4; i++) adc_value[i] = adc[i];
+
+	return adc_value[channel];
+}
+
+void adc_calibrate()
+{
+	offset_x = adc_read(JOYSTICK_X_CHANNEL);
+	offset_y = adc_read(JOYSTICK_Y_CHANNEL);
+}
+
+int8_t adc_conv_js_val(uint8_t raw_value, uint8_t offset_value)
+{
+	if (raw_value >= offset_value) {
+		return ((raw_value - offset_value) *100 / (ADC_MAX - offset_value));
+	}
+	return ((raw_value - offset_value) * 100 / offset_value );
+}
+
+pos_t pos_read()
+{
+	pos_t positions;
+	positions.X = adc_conv_js_val(adc_read(JOYSTICK_X_CHANNEL), offset_x);
+	positions.Y = adc_conv_js_val(adc_read(JOYSTICK_Y_CHANNEL), offset_y);
+	
+	return positions;
+}
+
+dir_t dir_read(pos_t positions)
+{	
+	if (abs(positions.X) <= ADC_JOYSTICK_DIR_THRESHOLD) {
+		if (abs(positions.Y) <= ADC_JOYSTICK_DIR_THRESHOLD) {
+			return NEUTRAL;
+		} else if (positions.Y > ADC_JOYSTICK_DIR_THRESHOLD) {
+			return UP;
+		} else if (positions.Y < ADC_JOYSTICK_DIR_THRESHOLD) {
+			return DOWN;
+		}
+	} else if (positions.X > ADC_JOYSTICK_DIR_THRESHOLD) {
+		if (abs(positions.Y) <= ADC_JOYSTICK_DIR_THRESHOLD) {
+			return RIGHT;
+		} else if (positions.Y > ADC_JOYSTICK_DIR_THRESHOLD) {
+			return UP_RIGHT;
+		} else if (positions.Y < ADC_JOYSTICK_DIR_THRESHOLD) {
+			return DOWN_RIGHT;
+		}
+	} else if (positions.X < ADC_JOYSTICK_DIR_THRESHOLD) {
+		if (abs(positions.Y) <= ADC_JOYSTICK_DIR_THRESHOLD) {
+			return LEFT;
+		} else if (positions.Y > ADC_JOYSTICK_DIR_THRESHOLD) {
+			return UP_LEFT;
+		} else if (positions.Y < ADC_JOYSTICK_DIR_THRESHOLD) {
+			return DOWN_LEFT;
+		}
+	}
+}
+
+uint8_t slider_read(uint8_t channel)
+{
+	return (100 * adc_read(channel) / ADC_MAX);
+}
+
+bool right_slider_update()
+{
+	uint8_t current_right_slider_val = slider_read(RIGHT_SLIDER_CHANNEL);
+
+	if (abs(current_right_slider_val - last_right_slider_val) > ADC_SLIDER_THRESHOLD) {
+		last_right_slider_val = current_right_slider_val;
+		return true;
+	}
+	else return false;
+}
+
+uint8_t right_slider_get()
+{
+	return last_right_slider_val;
+}
