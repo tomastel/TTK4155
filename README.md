@@ -7,10 +7,11 @@ The project's goal was to develop an embedded system for a fully functional one-
 
 This work allowed me to develop my skills in developing embedded systems, including low-level programming, design of electrical circuits, bus communication (CAN bus) and implemenation of discrete control systems (PID controller for racket).
 
-</br> </br>
+</br>
 
 <img
   src="TTK4155_messy_picture.jpg"
   alt="Alt text"
   title="Optional title"
   style="display: inline-block; margin: 0 auto; max-width: 300px">
+  *Excuse the messy picture*
